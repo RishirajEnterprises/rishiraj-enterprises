@@ -1,22 +1,37 @@
-/* ---------- GLOBAL STYLES ---------- */
+/* ================================
+   GLOBAL STYLES & THEME
+=================================== */
 :root {
-  --brand: #00c46a;
-  --brand-dark: #009b53;
-  --brand-light: #eafff4;
-  --text: #222;
-  --text-light: #666;
-  --bg: #fff;
-  --bg-alt: #f8f9fa;
-  --radius: 12px;
-  --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  --transition: 0.3s ease;
-  --max-width: 1200px;
+  /* Midnight Plum theme */
+  --bg-dark: #070812;         /* page background */
+  --surface-1: #0f1622;      /* cards / surfaces */
+  --surface-2: #0b1220;      /* alternate surfaces */
+  /* Accents: teal-forward palette (user prefers more teal than pink) */
+  --accent: #00c2b3;         /* bright teal */
+  --accent-2: #008f80;       /* deeper teal for secondary highlights */
+  --accent-rgb: 0,194,179;   /* rgb for rgba() uses (accent) */
+  --accent-contrast: #031018; /* dark text used on bright accent backgrounds */
+  --muted: #9aa6b2;          /* muted text */
+  --white: #eef6ff;
+  --glass-bg: rgba(255,255,255,0.03);
+  --shadow: 0 10px 30px rgba(2,6,23,0.6);
+  --radius: 14px;
+  --transition: 0.28s ease;
+  /* Back-compat aliases for older selectors in the stylesheet */
+  --text-light: var(--muted);
+  --gold: var(--accent);
+  --gold-light: rgba(var(--accent-rgb), 0.14);
+  --navy-mid: var(--surface-2);
+  /* Brand accent for textual wordmark; override to match your provided logo if needed.
+    Default set to a warm orange to match the provided wordmark. Change if you want a different shade. */
+  --brand-accent: #ff6a00;
+  --brand-accent-rgb: 255,106,0;
 }
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -24,51 +39,69 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  color: var(--text);
-  background-color: var(--bg);
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(0,0,0,0.35), transparent), linear-gradient(180deg, var(--bg-dark), var(--surface-2) 60%);
+  color: var(--white);
   line-height: 1.6;
+  overflow-x: hidden;
 }
 
-/* ---------- UTILITIES ---------- */
+/* Containers */
 .container {
   width: 90%;
-  max-width: var(--max-width);
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.btn {
-  display: inline-block;
-  padding: 12px 28px;
-  background: var(--brand);
-  color: #fff;
-  font-weight: 600;
-  border: none;
+/* Glass effect reusable class */
+.glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.04);
   border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.glass-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(var(--accent-rgb), 0.18);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-contrast);
+  font-weight: 700;
+  padding: 12px 28px;
+  border: none;
+  border-radius: calc(var(--radius) - 4px);
+  cursor: pointer;
   text-decoration: none;
   transition: var(--transition);
-  cursor: pointer;
-}
-.btn:hover {
-  background: var(--brand-dark);
-  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(var(--accent-rgb), 0.12);
 }
 
-.btn-primary.full {
-  width: 100%;
-  text-align: center;
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(var(--accent-rgb), 0.18);
 }
 
-/* ---------- HEADER ---------- */
-.header {
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: var(--shadow);
+/* ================================
+   NAVIGATION
+=================================== */
+header {
+  background: linear-gradient(180deg, rgba(8,10,14,0.7), rgba(6,8,12,0.55));
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1300; /* raise header above mobile overlay so hamburger stays clickable */
+  /* ensure a stable header height so elements can be vertically centered */
+  min-height: 64px;
 }
 
-.nav {
+.nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -76,242 +109,1130 @@ body {
 }
 
 .logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--brand-dark);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.nav-menu {
+.logo img {
+  /* Keep logo height fixed and preserve aspect ratio to avoid squishing wide logos */
+  height: 45px;
+  width: auto;
+  max-width: 180px; /* prevents extremely wide images from overflowing */
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* Inline SVG fallback should match the same sizing as the external image */
+#logo-inline svg {
+  height: 45px;
+  width: auto;
+  display: block;
+}
+
+/* Ensure both the external image and inline fallback align with the title */
+#logo-img, #logo-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small visible brand text beside logo to clarify full company name without duplicating the logo wordmark */
+.brand-text {
+  /* Remove extra left margin, rely on .logo gap for spacing; gap will be smaller in compact mode */
+  margin-left: 0;
+  font-size: 1.02rem;
+  color: var(--white);
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center; /* vertically center text with the logo */
+  line-height: 1;
+}
+
+/* On very small screens, hide the extra text to preserve header space */
+@media (max-width: 420px) {
+  .brand-text { display: none; }
+}
+
+/* Brand split styling: 'Rishiraj' in accent, 'Enterprises' muted */
+.brand-main {
+  /* Use a dedicated brand accent so you can match the wordmark to your supplied logo color easily */
+  color: var(--brand-accent);
+  margin-right: 0.28rem;
+}
+.brand-suffix {
+  /* Use the same brand hue with slight opacity so the two-part wordmark reads cohesive but slightly tiered */
+  color: rgba(var(--brand-accent-rgb), 0.92);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Header compact/scroll state: show compact mark and wordmark text; hide full logo */
+header.scrolled .brand-text.header-only {
+  opacity: 1;
+  visibility: visible;
+}
+header .brand-text.header-only {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+/* Full logo visible by default; hide when scrolled */
+#logo-full { display: inline-block; }
+#logo-small, #logo-inline { display: none; }
+header.scrolled #logo-full { display: none; }
+header.scrolled #logo-small { display: inline-block; }
+header.scrolled #logo-inline { display: inline-flex; }
+
+/* Slight size differences in compact header */
+header.scrolled .logo img { height: 36px; }
+
+/* Reduce gap in compact header so small mark sits closer to the wordmark */
+header.scrolled .logo { gap: 0.28rem; }
+
+/* Ensure nav items (links) are vertically centered next to the logo */
+#nav-menu, #nav-menu ul {
   display: flex;
-  gap: 1.5rem;
   align-items: center;
 }
 
-.nav-menu a {
-  color: var(--text);
+/* Mobile menu button: ensure SVG is centered and aligned with header text */
+#mobile-menu {
+  box-sizing: content-box; /* keep visual size predictable */
+}
+#mobile-menu svg {
+  display: block;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+
+/* Slight adjustment for very small screens where header stacks */
+@media (max-width: 420px) {
+  header { min-height: 56px; }
+  #mobile-menu { width: 36px; height: 36px; }
+  header.scrolled .logo img { height: 32px; }
+}
+
+
+.logo h1 {
+  font-size: 1.4rem;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+}
+
+#nav-menu ul {
+  display: flex;
+  list-style: none;
+  gap: 1.8rem;
+}
+
+#nav-menu a {
+  color: var(--text-light);
   font-weight: 500;
   text-decoration: none;
   transition: var(--transition);
+  font-size: 1rem;
 }
 
-.nav-menu a:hover {
-  color: var(--brand);
+#nav-menu a:hover,
+#nav-menu a.active {
+  color: var(--accent);
 }
 
-/* ---------- MOBILE NAV ---------- */
-.nav-toggle {
+/* Mobile Nav */
+#mobile-menu {
+  /* Hidden by default on desktop; shown in mobile media query below */
   display: none;
-  background: none;
+  width: 44px;
+  height: 44px;
+  color: var(--accent);
+  background: transparent;
   border: none;
-  font-size: 1.8rem;
   cursor: pointer;
-  color: var(--text);
+  padding: 6px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 768px) {
-  .nav-menu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--bg);
+  /* Mobile overlay nav: fixed full-screen panel to avoid height/transition race conditions */
+  /* Position the overlay below the header so the header (and hamburger) remains clickable */
+  /* Simpler mobile dropdown that pushes content down (never covers the header) */
+  /* make the nav container the positioning context and let nav-menu fill available space
+     so the dropdown aligns with the header content and doesn't appear as a narrow column */
+  /* Simpler: make the nav list in-flow so it pushes content and never overlays the header */
+  .nav-container { position: relative; }
+  #nav-menu { position: static; flex: none; }
+  #nav-menu ul {
+    position: static;
+    display: none;
     flex-direction: column;
     width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-    box-shadow: var(--shadow);
+    background: var(--navy-mid);
+    gap: 1rem;
+    padding: 0.5rem 1rem 1rem 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    border-top: 1px solid rgba(255,255,255,0.03);
   }
 
-  .nav-menu.show {
-    max-height: 300px;
-    padding: 1rem 0;
+  #nav-menu.show ul {
+    display: flex;
   }
 
-  .nav-toggle {
-    display: block;
+  /* Show mobile menu button on small screens */
+  #mobile-menu {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1400; /* ensure hamburger stays on top */
+    position: relative;
   }
 }
 
-/* ---------- HERO ---------- */
-.hero {
-  padding: 5rem 0;
+/* Tighter, touch-friendly mobile button sizing and compact header state */
+@media (max-width: 480px) {
+  #mobile-menu {
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+  }
+}
+
+/* Mobile drawer: full-width, fixed, appears below header and does not cover it */
+#mobile-drawer {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--header-h, 64px);
+  height: calc(100vh - var(--header-h, 64px));
+  /* glassmorphic backdrop */
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  backdrop-filter: blur(10px) saturate(120%);
+  background-blend-mode: overlay;
+  border-top: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  z-index: 1200; /* below header (1300) */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  align-items: flex-start;
+  padding: 1.2rem 0;
+  transform: translateY(-6px);
+  opacity: 0;
+  transition: transform 300ms cubic-bezier(.22,.9,.3,1), opacity 300ms ease;
+}
+
+#mobile-drawer.open { display: block; transform: translateY(0); opacity: 1; }
+
+#mobile-drawer ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 0 1.2rem;
+}
+
+#mobile-drawer a {
+  color: var(--white);
+  font-size: 1.25rem;
+  padding: 0.9rem 0.6rem;
+  display: block;
+  border-radius: 10px;
+  transition: background 180ms ease, transform 200ms ease;
+}
+
+#mobile-drawer a:hover,
+#mobile-drawer a:focus {
+  background: rgba(255,255,255,0.02);
+  transform: translateY(-2px);
+}
+
+/* Staggered item animation */
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#mobile-drawer.open ul li a { opacity: 0; transform: translateY(8px); }
+#mobile-drawer.open ul li:nth-child(1) a { animation: slideInUp 360ms ease 60ms forwards; }
+#mobile-drawer.open ul li:nth-child(2) a { animation: slideInUp 360ms ease 120ms forwards; }
+#mobile-drawer.open ul li:nth-child(3) a { animation: slideInUp 360ms ease 180ms forwards; }
+#mobile-drawer.open ul li:nth-child(4) a { animation: slideInUp 360ms ease 240ms forwards; }
+#mobile-drawer.open ul li:nth-child(5) a { animation: slideInUp 360ms ease 300ms forwards; }
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #mobile-drawer,
+  #mobile-drawer.open,
+  #mobile-drawer ul li a { transition: none !important; animation: none !important; transform: none !important; }
+}
+
+/* Closing state: animate items out and collapse the drawer smoothly */
+#mobile-drawer.closing { opacity: 0; transform: translateY(-6px); transition: transform 260ms cubic-bezier(.22,.9,.3,1), opacity 260ms ease; }
+#mobile-drawer.closing ul li a { animation: none !important; opacity: 0; transform: translateY(8px); transition: transform 200ms ease, opacity 200ms ease; }
+#mobile-drawer.closing ul li:nth-child(1) a { transition-delay: 0ms; }
+#mobile-drawer.closing ul li:nth-child(2) a { transition-delay: 40ms; }
+#mobile-drawer.closing ul li:nth-child(3) a { transition-delay: 80ms; }
+#mobile-drawer.closing ul li:nth-child(4) a { transition-delay: 120ms; }
+#mobile-drawer.closing ul li:nth-child(5) a { transition-delay: 160ms; }
+
+/* Slight separation from header on small screens */
+@media (max-width: 768px) {
+  #mobile-drawer { top: var(--header-h, 64px); }
+}
+
+/* mobile close button removed — hamburger toggles the menu */
+
+/* When header is compact, slightly reduce hamburger size to keep header dense */
+header.scrolled #mobile-menu {
+  width: 38px;
+  height: 38px;
+}
+
+/* Ensure the SVG inside the button scales and is vertically centered */
+#mobile-menu svg {
+  width: 22px;
+  height: 14px;
+  display: block;
+}
+
+/* Slight hover background for affordance */
+#mobile-menu:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+/* ================================
+   HERO SECTION
+=================================== */
+.hero-section {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  background: linear-gradient(135deg, var(--brand-light), #ffffff);
-  color: var(--text);
+  /* hero uses a local raster so the page works offline */
+  background: url("../assets/hero.jpg") center/cover no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 15, 31, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: var(--white);
+  max-width: 700px;
+  animation: fadeInUp 1.2s ease;
 }
 
 .hero-content h2 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--accent-2);
   margin-bottom: 1rem;
 }
 
 .hero-content p {
-  font-size: 1.1rem;
   color: var(--text-light);
   margin-bottom: 2rem;
+  font-size: 1.1rem;
 }
 
-/* ---------- SECTIONS ---------- */
-.section {
-  padding: 4rem 0;
+/* NOTE: `fadeInUp` keyframes already defined earlier for hero animations.
+   Keep a single definition above (near hero section) to avoid duplicates. */
+/* ================================
+   SECTION STYLES
+=================================== */
+section {
+  padding: 5rem 0;
+  position: relative;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
-.section-title {
-  font-size: 2rem;
-  font-weight: 700;
+.section-header h2 {
+  font-size: 2.2rem;
+  color: var(--accent);
   margin-bottom: 0.5rem;
 }
 
-.section-tag {
+.section-header p {
   color: var(--text-light);
+  font-size: 1.1rem;
+  opacity: 0.8;
 }
 
-/* ---------- GRID ---------- */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-}
-
-/* ---------- CARDS ---------- */
-.card {
-  background: var(--bg);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: var(--transition);
-  text-align: center;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-.card-body h3 {
-  color: var(--brand-dark);
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-}
-
-/* ---------- FAQS ---------- */
-.faqs details {
-  background: var(--bg-alt);
-  border-radius: var(--radius);
-  padding: 1rem 1.2rem;
-  margin-bottom: 1rem;
-  box-shadow: var(--shadow);
-}
-
-.faqs summary {
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--brand-dark);
-}
-
-.faqs p {
-  margin-top: 0.5rem;
-  color: var(--text-light);
-}
-
-/* ---------- CONTACT ---------- */
-.contact {
+/* ================================
+   ABOUT SECTION
+=================================== */
+.about-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  align-items: center;
   gap: 3rem;
 }
 
-.contact-info p {
-  margin-bottom: 0.8rem;
+.about-grid img {
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-.contact-form label {
+.about-text p {
+  margin-bottom: 1.2rem;
+  color: var(--text-light);
+  line-height: 1.8;
+}
+
+.about-text .btn-primary {
+  margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================
+   SERVICES SECTION
+=================================== */
+/* ✨ Our Services — Modern Premium Glass Style */
+.services {
+  margin: 5rem auto 2rem auto;
+  padding: 4rem 5%;
+  background: transparent;
+  position: relative;
+}
+
+.services h2 {
+  font-size: 2.2rem;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+.service-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border-radius: 1.2rem;
+  padding: 2rem;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at top left, rgba(var(--accent-rgb), 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-card:hover::before {
+  opacity: 1;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 48px rgba(var(--accent-rgb), 0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+}
+
+.service-card i {
+  font-size: 2.5rem;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
   display: block;
-  margin-bottom: 0.3rem;
-  font-weight: 500;
+}
+
+.service-card h3 {
+  color: var(--white);
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.service-card p {
+  color: var(--text-light);
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* 🧩 Fix section spacing below services */
+.projects {
+  margin-top: 6rem;
+}
+
+/* 📱 Responsive tweak */
+@media (max-width: 768px) {
+  .services {
+    padding: 3rem 1.5rem;
+  }
+
+  .service-card {
+    padding: 1.6rem;
+  }
+
+  .service-card i {
+    font-size: 2rem;
+  }
+}
+
+/* ✨ Featured Projects — modern glass grid layout */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 34px rgba(0,0,0,0.6);
+  border-color: rgba(var(--accent-rgb), 0.18);
+}
+
+.project-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  filter: brightness(0.9);
+  transition: filter 0.3s ease;
+}
+
+.project-card:hover .project-image {
+  filter: brightness(1.05);
+}
+
+.project-content {
+  padding: 1.4rem 1.6rem;
+}
+
+.project-content h3 {
+  font-size: 1.2rem;
+  color: var(--accent-2);
+  margin-bottom: 0.4rem;
+}
+
+.project-content p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* 🌌 Contact Section - Modern Navy + Gold Theme */
+.contact-section {
+  padding: 6rem 5%;
+  background: linear-gradient(180deg, var(--bg-dark) 0%, var(--surface-2) 100%);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: stretch;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.glass-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 2rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  transition: 0.4s ease;
+}
+
+.glass-box:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.08);
+}
+
+.contact-info h3 {
+  color: var(--accent);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
 }
 
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
   width: 100%;
-  padding: 10px 14px;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
-  border-radius: var(--radius);
-  font-family: inherit;
+  padding: 14px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white); /* Brighter for readability */
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+  appearance: none;
 }
 
-.contact-form textarea {
-  resize: vertical;
-  min-height: 120px;
+/* Make dropdown arrow visible + gold accent */
+.contact-form select {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d4af37' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  color-scheme: dark;
+  cursor: pointer;
 }
 
-.form-note {
-  text-align: center;
-  font-weight: 500;
+/* Dropdown text contrast */
+.contact-form select option {
+  background: var(--surface-2);
+  color: var(--white);
+}
+
+/* Focus glow */
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.14);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.contact-form button {
   margin-top: 0.5rem;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--accent-contrast);
+  font-weight: 700;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.28s ease;
+}
+
+.contact-form button:hover {
+  background: linear-gradient(135deg, var(--accent-2), var(--accent));
+  transform: scale(1.02);
 }
 
 @media (max-width: 900px) {
-  .contact {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+/* ================================
+   FOOTER
+=================================== */
+footer {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 3rem 0;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.95rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+footer p {
+  opacity: 0.7;
+}
+
+footer a {
+  color: var(--gold);
+  text-decoration: none;
+  margin: 0 8px;
+  transition: var(--transition);
+}
+
+footer a:hover {
+  color: var(--white);
+}
+
+/* ================================
+   BACK TO TOP BUTTON
+=================================== */
+#backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 0.8rem 1rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  box-shadow: 0 8px 30px rgba(var(--accent-rgb), 0.18);
+  cursor: pointer;
+  transition: var(--transition);
+  z-index: 1000;
+  display: none;
+}
+
+#backToTop:hover {
+  background: var(--white);
+  color: var(--accent-contrast);
+  transform: translateY(-4px);
+}
+
+/* ================================
+   ANIMATIONS
+=================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 1s ease forwards;
+}
+
+/* ================================
+   RESPONSIVE ADJUSTMENTS
+=================================== */
+@media (max-width: 768px) {
+  header {
+    padding: 1rem 0;
+  }
+
+  /* Keep mobile nav rules targeted to #nav-menu to avoid conflicting selectors
+     and ensure the JS-driven .show class controls visibility. */
+  #nav-menu ul {
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.8);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    /* visibility / max-height transitions are handled by the earlier #nav-menu / #nav-menu.show rules */
+  }
+
+  .menu-toggle {
+    display: block;
+    color: var(--accent);
+    font-size: 1.6rem;
+    cursor: pointer;
+  }
+
+  .hero {
+    height: 80vh;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .services-grid,
+  .projects-grid,
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* ---------- FOOTER ---------- */
-.footer {
-  background: var(--brand-dark);
-  color: #fff;
-  text-align: center;
-  padding: 2rem 0;
-  font-size: 0.95rem;
+/* ================================
+   SMOOTH SCROLL BEHAVIOR
+=================================== */
+html {
+  scroll-behavior: smooth;
+}
+/* ============================================================
+   🔮 ANIMATION + INTERACTION STYLES (Part 4)
+   For fade-ins, hover glow, and smooth glass effects
+============================================================ */
+
+/* Utility: visually hidden for accessible labels */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+  border: 0; padding: 0; margin: -1px;
 }
 
-.footer .tagline {
-  font-style: italic;
-  color: #caffea;
-  margin-top: 0.5rem;
+/* ---------- Fade Animations ---------- */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+.fade-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.8s ease-out;
+}
+.fade-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.8s ease-out;
+}
+.show {
+  opacity: 1 !important;
+  transform: translate(0) !important;
 }
 
-/* ---------- BACK TO TOP ---------- */
-.back-to-top {
+/* ---------- Buttons ---------- */
+button,
+.btn-primary,
+.btn {
+  position: relative;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 12px;
+  padding: 12px 28px;
+  background: linear-gradient(145deg, var(--accent), var(--accent-2));
+  color: var(--accent-contrast);
+  box-shadow: 0 8px 28px rgba(var(--accent-rgb), 0.12);
+  transition: all 0.28s ease;
+  overflow: hidden;
+}
+
+button:hover,
+.btn:hover {
+  box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.22);
+  transform: translateY(-3px);
+  background: linear-gradient(145deg, var(--accent-2), var(--accent));
+}
+
+button:active,
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* ---------- Glass Blur Cards ---------- */
+.glass-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 28px rgba(var(--accent-rgb), 0.12);
+}
+
+/* ---------- Section Backgrounds ---------- */
+section {
+  position: relative;
+  z-index: 1;
+}
+section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(8,12,20,0.75), rgba(4,6,10,0.9));
+  z-index: -1;
+}
+
+/* ---------- Back to Top Button ---------- */
+#backToTop {
   position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  background: var(--brand);
-  color: #fff;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   border: none;
   border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  color: var(--white);
   font-size: 1.5rem;
-  width: 44px;
-  height: 44px;
   cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transition: var(--transition);
+  box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.18);
+  transition: all 0.3s ease;
+  display: none;
+  z-index: 999;
 }
 
-.back-to-top.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+#backToTop.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.back-to-top:hover {
-  background: var(--brand-dark);
+#backToTop:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.28);
+  color: var(--accent-contrast);
+}
+
+/* ---------- Transition policy (performance friendly) ---------- */
+/*
+  Avoid applying transitions to the universal selector (*) — that forces
+  the browser to create composite layers for nearly every element which
+  can hurt scrolling and animation performance on low-end devices.
+
+  Use the small utility below to opt-in to smoother transitions for
+  specific areas, or prefer explicit per-component transition rules.
+*/
+.transitions * {
+  /* Opt-in utility: add the `transitions` class to a container when you
+     want to animate many children at once (use sparingly). */
+  transition: color 220ms ease, background-color 220ms ease, transform 260ms cubic-bezier(.22,.9,.3,1), opacity 220ms ease, box-shadow 260ms ease;
+}
+
+/* ---------- Page Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Text Glow ---------- */
+h1, h2, h3 {
+  color: var(--white);
+  text-shadow: 0 0 12px rgba(var(--accent-rgb), 0.18);
+}
+p, li, a {
+  color: var(--muted);
+}
+
+/* 🌌 SECTION SPACING FIX — keeps sections cleanly separated */
+/* 🧭 Refined section spacing for compact, modern layout */
+section {
+  padding: 3.5rem 6%;
+  position: relative;
+  z-index: 1;
+}
+
+section + section {
+  margin-top: 2.5rem;
+}
+
+/* Specific section tweaks */
+#featured,
+#projects,
+#services {
+  margin-bottom: 3.5rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 900px) {
+  section {
+    padding: 2.5rem 7%;
+  }
+  section + section {
+    margin-top: 2rem;
+  }
+}
+
+/* Specific spacing for featured/projects/services */
+#featured,
+#projects,
+#services {
+  margin-bottom: 6rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  section {
+    padding: 4rem 6%;
+  }
+  section + section {
+    margin-top: 3rem;
+  }
+}
+
+
+/* ============================================================
+   📱 RESPONSIVE DESIGN STYLES
+   Works for tablets, mobiles, and small laptops
+============================================================ */
+
+/* --- Tablet (<= 1024px) --- */
+@media (max-width: 1024px) {
+  header {
+    padding: 15px 40px;
+  }
+
+  nav ul {
+    gap: 20px;
+  }
+
+  .hero h1 {
+    font-size: 2.6rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  section {
+    padding: 60px 40px;
+  }
+}
+
+/* --- Mobile (<= 768px) --- */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero {
+    padding-top: 100px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .about-content {
+    flex-direction: column;
+  }
+
+  form {
+    width: 100%;
+    padding: 20px;
+  }
+
+  input, select, textarea {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  button, .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* --- Small Phones (<= 480px) --- */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  header {
+    padding: 10px 20px;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero p {
+    font-size: 0.9rem;
+  }
+
+  .projects-grid {
+    gap: 15px;
+  }
+
+  footer {
+    font-size: 0.8rem;
+  }
 }

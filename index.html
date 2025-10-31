@@ -1,154 +1,227 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rishiraj Enterprises - Interior, Construction & Landscaping</title>
-  <meta name="description" content="Rishiraj Enterprises provides expert Interior Design, Construction, and Landscaping services across India. Transforming spaces, creating dreams." />
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/script.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rishiraj Enterprises | Transforming Spaces</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="js/script.js" defer></script>
+  </head>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="container nav-container">
-      <a class="brand" href="#home" aria-label="Rishiraj Enterprises Home">
-        <img class="logo-img" src="https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=200&auto=format&fit=crop" width="36" height="36" alt="Rishiraj Enterprises logo" />
-        <strong class="logo">Rishiraj Enterprises</strong>
-      </a>
-      <button id="mobile-menu" class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <nav aria-label="Primary">
-        <ul id="nav-menu" class="nav-menu">
-          <li><a class="nav-link" href="#home">Home</a></li>
-          <li><a class="nav-link" href="#about">About</a></li>
-          <li><a class="nav-link" href="#services">Services</a></li>
-          <li><a class="nav-link" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link" href="#faqs">FAQs</a></li>
-          <li><a class="nav-link" href="#contact">Get a Quote</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <body>
+    <!-- Header / Navbar -->
+    <header id="header">
+      <div class="container nav-container">
+        <div class="logo">
+       <!-- Full wordmark logo (user-provided PNG).
+         Fallback behavior: The inline `onerror` handlers progressively hide this image
+         and reveal alternatives (compact PNG or the inline SVG mark). This keeps the
+         visible header intact even if external assets fail to load. Consider moving this
+         logic into `js/script.js` for improved testability and to avoid inline handlers.
+       -->
+          <img id="logo-full" src="assets/logo.png" alt="Rishiraj Enterprises" height="48"
+               onerror="this.style.display='none'; document.getElementById('logo-small').style.display='inline-block'; document.getElementById('logo-inline').style.display='flex';">
 
-  <!-- Main Sections -->
-  <main id="home">
-    <section class="hero">
-      <div class="container">
-        <h1 class="hero-title">Transforming Spaces, Creating Dreams</h1>
-        <p class="hero-subtitle">Expert Interior Design | Landscaping | Construction | Turnkey Solutions</p>
-        <div class="hero-buttons">
-          <a class="btn btn-primary" href="#services">Explore Services</a>
-          <a class="btn btn-ghost" href="#portfolio">View Portfolio</a>
-          <a class="btn btn-ghost" href="#contact">Call Us</a>
+    <!-- Compact mark used in the compact header after scrolling -->
+    <!-- Try user's filename 'logo-mark.png' first (many users choose that). If it fails, fall back to 'small-mark.png', then to inline SVG. -->
+    <img id="logo-small" src="assets/logo-mark.png" alt="Rishiraj mark" height="36"
+      onerror="if(this.dataset.retry==='1'){this.style.display='none'; document.getElementById('logo-inline').style.display='flex';}else{this.dataset.retry='1'; this.src='assets/small-mark.png';}">
+
+    <!-- Inline SVG fallback for the compact mark (hidden by default)
+      - Used when local raster images are missing or slow to load.
+      - Accessible: includes role and aria-label so screen readers can announce the mark.
+    -->
+          <span id="logo-inline" style="width:45px; height:45px;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Rishiraj Enterprises mark" width="45" height="45">
+              <defs>
+                <linearGradient id="lg2" x1="0" x2="1">
+                  <stop offset="0" stop-color="#00c2b3"/>
+                  <stop offset="1" stop-color="#008f80"/>
+                </linearGradient>
+              </defs>
+              <rect width="160" height="160" rx="28" fill="#071018"/>
+              <circle cx="80" cy="80" r="56" fill="url(#lg2)" />
+              <text x="80" y="98" font-family="Poppins, sans-serif" font-size="64" fill="#031018" text-anchor="middle" font-weight="700">RE</text>
+            </svg>
+          </span>
+
+          <!-- Visible professional wordmark text beside the compact mark. Hidden by default, shown when header is compact (scrolled). -->
+          <span class="brand-text header-only"><span class="brand-main">Rishiraj</span> <span class="brand-suffix">Enterprises</span></span>
+          <!-- Hidden H1 kept for accessibility/SEO -->
+          <h1 class="visually-hidden">Rishiraj Enterprises</h1>
         </div>
+  <nav id="nav-menu" role="navigation" aria-label="Main navigation">
+          <ul>
+            <li><a href="#home" class="nav-link active">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#services" class="nav-link">Services</a></li>
+            <li><a href="#projects" class="nav-link">Projects</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+  <button id="mobile-menu" aria-label="Menu" aria-controls="nav-menu" aria-expanded="false">
+    <!-- Inline SVG hamburger for consistent sizing and crisp rendering -->
+    <svg width="22" height="14" viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M1 1h20" />
+        <path d="M1 7h20" />
+        <path d="M1 13h20" />
+      </g>
+    </svg>
+  </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+      <div class="hero-content">
+        <h2>Transforming Spaces<br>Into Timeless Designs</h2>
+        <p>Innovative architectural & interior solutions built with passion and precision.</p>
+        <a href="#projects" class="btn-primary">View Our Work</a>
       </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="section">
+    <section id="about" class="about-section">
       <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">About Us</h2>
-          <p class="section-tag">Welcome to Rishiraj Enterprises</p>
-        </header>
-        <div class="grid about-grid">
-          <div>
-            <p class="lead">With years of excellence, Rishiraj Enterprises has established itself as a leading name in interior design, construction, and project solutions.</p>
-            <p>Our team of experienced designers and engineers collaborates to deliver projects that exceed expectations—from concept to completion.</p>
-            <div class="hero-buttons">
-              <a class="btn btn-primary" href="#contact">Get a Free Quote</a>
-              <a class="btn btn-ghost" href="#faqs">Read FAQs</a>
-            </div>
-          </div>
-          <figure>
-            <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=900&auto=format&fit=crop" alt="Modern workspace" />
-          </figure>
+        <div class="content glass-card">
+          <h2>About Us</h2>
+          <p>
+            At <strong>Rishiraj Enterprises</strong>, we redefine architectural elegance.
+            Our multidisciplinary team of designers and craftsmen bring innovation,
+            functionality, and aesthetics together to create spaces that inspire and endure.
+          </p>
+          <p>
+            From corporate environments to luxurious residential interiors,
+            every project reflects our commitment to quality and timeless design.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="section">
+    <section id="services" class="services-section">
       <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">Our Services</h2>
-          <p class="section-tag">Comprehensive design and construction solutions</p>
-        </header>
-        <div class="grid services-grid">
-          <article class="card"><img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop" alt=""><h3>Interior Designing</h3><p>Create stunning, functional interiors that reflect your style.</p></article>
-          <article class="card"><img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop" alt=""><h3>Landscaping</h3><p>Transform outdoor spaces into sustainable gardens.</p></article>
-          <article class="card"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=800&auto=format&fit=crop" alt=""><h3>Construction</h3><p>End-to-end construction with quality materials and precision.</p></article>
+        <h2>Our Services</h2>
+        <div class="service-cards">
+          <div class="service glass-card">
+            <h3>Architecture</h3>
+            <p>Creative and efficient designs that merge modern technology with enduring elegance.</p>
+          </div>
+          <div class="service glass-card">
+            <h3>Interior Design</h3>
+            <p>From concept to completion — personalized interiors built to impress and perform.</p>
+          </div>
+          <div class="service glass-card">
+            <h3>Project Management</h3>
+            <p>Ensuring smooth execution and on-time delivery with professional precision.</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="section">
-      <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">Our Portfolio</h2>
-          <p class="section-tag">Showcasing our finest work</p>
-        </header>
-        <div class="grid portfolio-grid">
-          <article class="card"><img src="https://images.unsplash.com/photo-1505691723518-36a5ac3b2d95?q=80&w=800&auto=format&fit=crop" alt=""><h3>Modern Villa</h3><p>Luxury residential project</p></article>
-          <article class="card"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=800&auto=format&fit=crop" alt=""><h3>Corporate Office</h3><p>Contemporary workspace</p></article>
-          <article class="card"><img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=800&auto=format&fit=crop" alt=""><h3>Garden Paradise</h3><p>Landscape transformation</p></article>
-          <article class="card"><img src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800&auto=format&fit=crop" alt=""><h3>Boutique Hotel</h3><p>Hospitality interior design</p></article>
-        </div>
+    <!-- Projects Section -->
+   <section id="projects">
+  <h2>Featured Projects</h2>
+  <div class="projects-grid">
+    <div class="project-card">
+      <img src="assets/project1.jpg" alt="Luxury Office" class="project-image" loading="lazy">
+      <div class="project-content">
+        <h3>Luxury Office</h3>
+        <p>Modern corporate interiors that enhance productivity and creativity.</p>
       </div>
-    </section>
+    </div>
 
-    <!-- FAQs Section -->
-    <section id="faqs" class="section">
-      <div class="container">
-        <header class="section-header">
-          <h2 class="section-title">Frequently Asked Questions</h2>
-        </header>
-        <div class="faqs">
-          <details><summary><strong>Do you handle residential and commercial projects?</strong></summary><p>Yes, we specialize in both.</p></details>
-          <details><summary><strong>Do you offer turnkey solutions?</strong></summary><p>Yes, from design to delivery.</p></details>
-          <details><summary><strong>Where are you based?</strong></summary><p>We are based in Jaipur, serving across India.</p></details>
-        </div>
+    <div class="project-card">
+      <img src="assets/project2.jpg" alt="Residential Villa" class="project-image" loading="lazy">
+      <div class="project-content">
+        <h3>Residential Villa</h3>
+        <p>A perfect balance between comfort, sophistication, and innovation.</p>
       </div>
-    </section>
+    </div>
+
+    <div class="project-card">
+      <img src="assets/project3.jpg" alt="Retail Experience" class="project-image" loading="lazy">
+      <div class="project-content">
+        <h3>Retail Experience</h3>
+        <p>Stylish, functional spaces that elevate the shopping experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
     <!-- Contact Section -->
-    <section id="contact" class="section">
-      <div class="container contact">
-        <div class="contact-info">
-          <h3>Contact Us</h3>
-          <p>Rishiraj Enterprises<br>Jaipur, Rajasthan, India</p>
-          <p><strong>Phone:</strong> <a href="tel:+919000000000">+91 90000 00000</a></p>
-          <p><strong>Email:</strong> <a href="mailto:info@rishirajenterprises.com">info@rishirajenterprises.com</a></p>
-        </div>
-        <form id="contactForm">
+   <section id="contact" class="contact-section">
+  <div class="container contact-grid">
+
+    <div class="contact-info glass-box">
+      <h3>Let’s Connect</h3>
+      <p>We’d love to help you design, build, and transform your space into something timeless.</p>
+      <p><strong>Email:</strong> contact@rishirajenterprises.com</p>
+      <p><strong>Phone:</strong> +91 98765 43210</p>
+      <p><strong>Location:</strong> Mumbai, India</p>
+    </div>
+
+    <div class="contact-form glass-box">
+      <form id="contactForm">
+        <div class="form-row">
+          <label for="name" class="visually-hidden">Full name</label>
           <input type="text" id="name" placeholder="Full Name" required>
-          <input type="email" id="email" placeholder="Email" required>
-          <input type="tel" id="phone" placeholder="Phone" required>
+
+          <label for="email" class="visually-hidden">Email address</label>
+          <input type="email" id="email" placeholder="Email Address" required>
+        </div>
+        <div class="form-row">
+          <label for="phone" class="visually-hidden">Phone number</label>
+          <input type="tel" id="phone" placeholder="Phone Number" required>
+
+          <label for="service" class="visually-hidden">Select a service</label>
           <select id="service" required>
-            <option value="">Select Service</option>
-            <option>Interior</option>
-            <option>Construction</option>
-            <option>Landscaping</option>
+            <option value="">Select a Service</option>
+            <option value="architecture">Architecture</option>
+            <option value="interior">Interior Design</option>
+            <option value="management">Project Management</option>
           </select>
-          <textarea id="message" placeholder="Your message" required></textarea>
-          <button class="btn btn-primary full" type="submit">Submit</button>
-          <p id="formStatus" class="form-note"></p>
-        </form>
+        </div>
+        <label for="message" class="visually-hidden">Your message</label>
+        <textarea id="message" rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn-primary">Send Message</button>
+        <p id="formStatus" aria-live="polite"></p>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>© <span id="year"></span> Rishiraj Enterprises. All rights reserved.</p>
       </div>
-    </section>
-  </main>
+    </footer>
 
-  <footer class="footer">
-    <p>© 2025 Rishiraj Enterprises. All rights reserved.</p>
-  </footer>
-
-  <button class="back-to-top" id="backToTop">↑</button>
-
-  <script src="script.js"></script>
-</body>
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="Back to Top">↑</button>
+    <!-- Mobile drawer (cloned on small screens)
+         - Populated by `js/script.js` on load/resize. Keeps desktop nav as the single source
+           of truth (the script clones the desktop UL into this container).
+         - aria-hidden toggled by script to reflect visibility.
+         - It intentionally lives outside the header so it animates below the sticky header.
+    -->
+    <div id="mobile-drawer" aria-hidden="true" tabindex="-1">
+      <ul></ul>
+    </div>
+<!-- emailjs (kept at end so it loads before inline init) -->
+<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("YOUR_PUBLIC_KEY_HERE"); // replace when you have your EmailJS public key
+  })();
+</script>
+ 
+ </body>
 </html>

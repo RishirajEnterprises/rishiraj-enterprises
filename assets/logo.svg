@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Rishiraj Enterprises logo">
+  <defs>
+    <linearGradient id="lg" x1="0" x2="1">
+      <stop offset="0" stop-color="#00c2b3"/>
+      <stop offset="1" stop-color="#008f80"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="20" fill="url(#lg)" />
+  <text x="80" y="98" font-family="Poppins, sans-serif" font-size="64" fill="#fff" text-anchor="middle" font-weight="700">RE</text>
+</svg>

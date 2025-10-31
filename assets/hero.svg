@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Hero image placeholder">
+  <defs>
+    <linearGradient id="hgrad" x1="0" x2="1">
+      <stop offset="0" stop-color="#001217"/>
+      <stop offset="1" stop-color="#003b36"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#hgrad)" />
+  <g fill="#9aa6b2" font-family="Poppins, sans-serif" font-size="48">
+    <text x="800" y="420" text-anchor="middle">Architecture • Interior Design</text>
+    <text x="800" y="480" text-anchor="middle" font-size="28">Hero placeholder — replace with your hero photo</text>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Retail Experience image">
+  <defs>
+    <linearGradient id="p3" x1="0" x2="1">
+      <stop offset="0" stop-color="#001216"/>
+      <stop offset="1" stop-color="#003734"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#p3)" />
+  <g fill="#9aa6b2" font-family="Poppins, sans-serif" font-size="32">
+    <text x="400" y="320" text-anchor="middle">Retail Experience</text>
+  </g>
+</svg>

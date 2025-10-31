@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Luxury Office image">
+  <defs>
+    <linearGradient id="p1" x1="0" x2="1">
+      <stop offset="0" stop-color="#002025"/>
+      <stop offset="1" stop-color="#00443c"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#p1)" />
+  <g fill="#9aa6b2" font-family="Poppins, sans-serif" font-size="32">
+    <text x="400" y="320" text-anchor="middle">Luxury Office</text>
+  </g>
+</svg>
