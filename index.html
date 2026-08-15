@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Rishiraj Enterprises | Architecture, Interiors &amp; Turnkey Construction</title>
-    <meta name="description" content="Rishiraj Enterprises — architecture, interior design and turnkey construction for hospitality, corporate and residential projects across Northeast India." />
+    <title>Rishiraj Enterprises | Architecture, Interiors &amp; Turnkey Construction — Guwahati</title>
+    <meta name="description" content="Rishiraj Enterprises — architecture, interior design and turnkey construction for hospitality, corporate and residential projects, based in Guwahati and working across India." />
+    <meta name="theme-color" content="#0e0d0b" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rishiraj Enterprises | Architecture, Interiors & Turnkey Construction" />
+    <meta property="og:description" content="Architecture, interior design and turnkey construction for hospitality, corporate and residential projects — based in Guwahati, working across India." />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%230e0d0b' stroke='%23b8905a' stroke-width='3'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='21' fill='%23d3ab79' text-anchor='middle'%3ERE%3C/text%3E%3C/svg%3E" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
@@ -23,16 +31,26 @@
 
             --brass: #b8905a;          /* Antique brass accent */
             --brass-bright: #d3ab79;
+            --brass-deep: #8a6a3f;
             --brass-glow: rgba(184, 144, 90, 0.22);
 
             --ivory: #f3efe6;
             --text-body: #cdc7ba;
-            --text-muted: #8b8577;
+            --text-muted: #9a9384;
             --hairline: rgba(243, 239, 230, 0.1);
             --hairline-strong: rgba(243, 239, 230, 0.22);
 
+            /* --- PALETTE: BLUEPRINT (scoped to the interactive blueprint section) --- */
+            --bp-ink: #0c2740;
+            --bp-paper: #133a5c;
+            --bp-paper-2: #164368;
+            --bp-line: #8fc3e0;
+            --bp-line-bright: #c9e6f5;
+            --bp-hairline: rgba(201, 230, 245, 0.16);
+
             --font-display: 'Fraunces', serif;
             --font-body: 'Inter', sans-serif;
+            --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 
             --header-h: 84px;
             --section-pad: clamp(64px, 9vw, 128px);
@@ -74,23 +92,38 @@
         ul { list-style: none; }
         img { max-width: 100%; display: block; }
         button { font-family: inherit; }
+        svg { display: block; }
 
         :focus-visible {
             outline: 2px solid var(--brass-bright);
             outline-offset: 3px;
+            border-radius: 2px;
         }
 
         .container { max-width: 1320px; margin: 0 auto; padding: 0 24px; }
+
+        .mono { font-family: var(--font-mono); letter-spacing: 0.02em; }
 
         .eyebrow {
             display: inline-flex; align-items: center; gap: 10px;
             font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.18em;
             color: var(--brass-bright); font-weight: 600; margin-bottom: 18px;
+            font-family: var(--font-mono);
         }
-        .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--brass); }
+        .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--brass); flex-shrink: 0; }
+
+        /* Scroll-reveal utility — respects reduced motion via the blanket rule below */
+        .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease-smooth); }
+        .reveal.in-view { opacity: 1; transform: translateY(0); }
+        .reveal-1.in-view { transition-delay: 0.06s; }
+        .reveal-2.in-view { transition-delay: 0.12s; }
+        .reveal-3.in-view { transition-delay: 0.18s; }
+        .reveal-4.in-view { transition-delay: 0.24s; }
+        .reveal-5.in-view { transition-delay: 0.30s; }
 
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+            .reveal { opacity: 1; transform: none; }
         }
 
         /* =========================================
@@ -111,22 +144,32 @@
             padding: 0 14px 0 20px; transition: all 0.4s var(--ease-smooth);
         }
 
-        .logo { display: flex; align-items: center; gap: 12px; height: 100%; }
+        #header.scrolled { top: 12px; }
+        #header.scrolled .nav-pill {
+            height: 60px;
+            background: rgba(14, 13, 11, 0.92);
+            border-color: var(--hairline-strong);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+        }
+
+        .logo { display: flex; align-items: center; gap: 12px; height: 100%; background: none; border: none; cursor: pointer; padding: 0; }
         .logo-mark {
             width: 40px; height: 40px; flex-shrink: 0;
             border: 1px solid var(--brass); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-family: var(--font-display); font-size: 1.05rem; color: var(--brass-bright);
-            letter-spacing: 0.03em;
+            letter-spacing: 0.03em; transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
         }
-        .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+        .logo:hover .logo-mark { box-shadow: 0 0 0 4px var(--brass-glow); }
+        .logo-text { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
         .logo-text .name { font-family: var(--font-display); font-size: 1.15rem; color: var(--ivory); font-weight: 500; letter-spacing: 0.01em; }
-        .logo-text .tagline { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--brass-bright); }
+        .logo-text .tagline { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--brass-bright); font-family: var(--font-mono); }
 
-        .desktop-nav ul { display: flex; gap: 36px; align-items: center; }
+        .desktop-nav ul { display: flex; gap: 30px; align-items: center; }
         .nav-link {
-            color: var(--text-body); font-size: 0.82rem; font-weight: 500;
+            color: var(--text-body); font-size: 0.8rem; font-weight: 500;
             text-transform: uppercase; letter-spacing: 0.06em; position: relative;
+            white-space: nowrap;
         }
         .nav-link::after {
             content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 1px;
@@ -140,18 +183,22 @@
             border: 1px solid var(--brass); color: var(--ivory);
             font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
             padding: 11px 22px; border-radius: var(--radius-sm); transition: all 0.3s var(--ease-smooth);
+            white-space: nowrap;
         }
         .nav-cta:hover { background: var(--brass); color: var(--ink); }
 
         #mobile-toggle {
             display: none; background: none; border: none; color: var(--ivory); cursor: pointer;
-            width: 44px; height: 44px; align-items: center; justify-content: center;
+            width: 44px; height: 44px; align-items: center; justify-content: center; position: relative;
         }
+        #mobile-toggle .icon-close { display: none; }
+        #mobile-toggle.is-open .icon-menu { display: none; }
+        #mobile-toggle.is-open .icon-close { display: block; }
 
         /* =========================================
            4. SECTIONS & HERO
            ========================================= */
-        section { padding: var(--section-pad) 0; position: relative; }
+        section { padding: var(--section-pad) 0; position: relative; scroll-margin-top: calc(var(--header-h) + 24px); }
 
         .hero-section {
             min-height: 100svh; display: flex; align-items: center; justify-content: center;
@@ -171,7 +218,7 @@
 
         .hero-text {
             font-size: clamp(1rem, 1.6vw, 1.2rem);
-            max-width: 620px; margin: 0 auto 40px auto; color: #d8d3c6;
+            max-width: 640px; margin: 0 auto 40px auto; color: #d8d3c6;
         }
 
         .btn-group { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
@@ -180,6 +227,7 @@
             position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; gap: 8px;
             font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-muted);
+            background: none; border: none; cursor: pointer; padding: 6px;
         }
         .hero-scroll-cue .line { width: 1px; height: 34px; background: linear-gradient(var(--brass), transparent); animation: pulseLine 2.2s infinite; }
         @keyframes pulseLine { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
@@ -190,7 +238,7 @@
         .trusted-section { padding: 56px 0; background: var(--surface); border-bottom: 1px solid var(--hairline); }
         .trusted-title {
             text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.24em;
-            color: var(--text-muted); margin-bottom: 34px; font-weight: 600; font-family: var(--font-body);
+            color: var(--text-muted); margin-bottom: 34px; font-weight: 600; font-family: var(--font-mono);
         }
 
         .marquee-wrapper { width: 100%; overflow: hidden; position: relative; padding: 6px 0; }
@@ -200,16 +248,20 @@
         .marquee-wrapper::before { left: 0; background: linear-gradient(to right, var(--surface), transparent); }
         .marquee-wrapper::after { right: 0; background: linear-gradient(to left, var(--surface), transparent); }
 
-        .marquee-content { display: flex; gap: 64px; animation: scroll 46s linear infinite; width: max-content; align-items: center; }
+        .marquee-content { display: flex; gap: 56px; animation: scroll 42s linear infinite; width: max-content; align-items: center; }
         .marquee-wrapper:hover .marquee-content { animation-play-state: paused; }
 
         .client-logo {
-            display: flex; align-items: center; gap: 10px; opacity: 0.55;
+            display: flex; align-items: center; gap: 12px; opacity: 0.6;
             transition: opacity 0.3s, transform 0.3s; cursor: default; white-space: nowrap;
         }
         .client-logo:hover { opacity: 1; }
-        .client-logo svg { height: 26px; width: auto; stroke: var(--brass-bright); }
-        .client-logo span { font-size: 1.05rem; font-weight: 600; color: var(--ivory); font-family: var(--font-display); letter-spacing: 0.01em; }
+        .client-badge {
+            width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--brass);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            font-family: var(--font-display); font-size: 0.85rem; color: var(--brass-bright);
+        }
+        .client-logo span { font-size: 1.02rem; font-weight: 600; color: var(--ivory); font-family: var(--font-display); letter-spacing: 0.01em; }
 
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
@@ -236,8 +288,8 @@
             border-left: 2px solid var(--brass); padding-left: 20px; margin-top: 26px;
             font-family: var(--font-display); font-style: italic; font-size: 1.15rem; color: var(--ivory);
         }
-        .about-quote span { display: block; margin-top: 10px; font-family: var(--font-body); font-style: normal; font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.04em; }
-        .about-media { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; border: 1px solid var(--hairline); }
+        .about-quote span { display: block; margin-top: 10px; font-family: var(--font-mono); font-style: normal; font-size: 0.76rem; color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase; }
+        .about-media { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; border: 1px solid var(--hairline); background: linear-gradient(135deg, var(--surface), var(--surface-2)); }
         .about-media img { width: 100%; height: 100%; object-fit: cover; }
         .about-media-badge {
             position: absolute; bottom: 20px; left: 20px; right: 20px;
@@ -249,39 +301,167 @@
         .about-media-badge .label { font-size: 0.78rem; color: var(--text-body); line-height: 1.35; }
 
         /* =========================================
-           8. PROCESS
+           8. TECHNICAL CAPABILITIES (spec-sheet style)
            ========================================= */
-        .process-section { background: var(--surface); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+        .tech-section { background: var(--surface); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+        .tech-layout { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: start; }
+        .tech-intro .eyebrow { margin-bottom: 18px; }
+        .tech-intro h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: 18px; }
+        .tech-intro p { color: var(--text-muted); margin-bottom: 16px; }
+        .tech-intro p:last-child { margin-bottom: 0; }
+
+        .tech-list { border-top: 1px solid var(--hairline); }
+        .tech-row {
+            display: grid; grid-template-columns: 110px 1fr auto; gap: 24px; align-items: baseline;
+            padding: 26px 0; border-bottom: 1px solid var(--hairline);
+        }
+        .tech-row-label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--brass-bright); text-transform: uppercase; padding-top: 4px; }
+        .tech-row-body h3 { font-size: 1.18rem; margin-bottom: 8px; font-weight: 500; }
+        .tech-row-body p { font-size: 0.92rem; color: var(--text-muted); }
+        .tech-row-data { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-align: right; white-space: nowrap; letter-spacing: 0.04em; padding-top: 4px; }
+
+        /* =========================================
+           9. PROCESS
+           ========================================= */
+        .process-section { background: var(--ink); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
         .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
         .process-step {
             padding: 34px 28px; border-left: 1px solid var(--hairline); position: relative;
         }
         .process-step:first-child { border-left: none; }
-        .process-num { font-family: var(--font-display); font-size: 0.95rem; color: var(--brass-bright); margin-bottom: 18px; letter-spacing: 0.04em; }
+        .process-num { font-family: var(--font-mono); font-size: 0.95rem; color: var(--brass-bright); margin-bottom: 18px; letter-spacing: 0.04em; }
         .process-step h3 { font-size: 1.2rem; margin-bottom: 10px; }
         .process-step p { font-size: 0.92rem; color: var(--text-muted); }
 
         /* =========================================
-           9. SERVICES
+           10. SERVICES
            ========================================= */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
 
         .glass-card {
             background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-md);
             padding: 36px; display: flex; flex-direction: column; justify-content: space-between;
-            min-height: 240px; transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            min-height: 260px; transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
         }
         .glass-card:hover { transform: translateY(-6px); border-color: var(--brass); background: var(--surface-2); }
 
         .card-icon {
             margin-bottom: 22px; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--brass); border-radius: 50%; color: var(--brass-bright);
+            border: 1px solid var(--brass); border-radius: 50%; color: var(--brass-bright); flex-shrink: 0;
         }
         .glass-card h3 { font-size: 1.28rem; margin-bottom: 10px; }
         .glass-card p { color: var(--text-muted); font-size: 0.95rem; }
 
         /* =========================================
-           10. PROJECTS
+           11. MASSING / 3D EXPLORER
+           ========================================= */
+        .massing-section { background: var(--surface); border-bottom: 1px solid var(--hairline); }
+        .massing-layout { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: start; }
+        .massing-intro .eyebrow { margin-bottom: 18px; }
+        .massing-intro h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: 18px; }
+        .massing-intro p { color: var(--text-muted); margin-bottom: 16px; }
+        .massing-intro p:last-child { margin-bottom: 0; }
+
+        .massing-types { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+        .massing-type-btn {
+            background: transparent; border: 1px solid var(--hairline-strong); color: var(--text-body);
+            font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 12px 20px; border-radius: 100px; cursor: pointer; transition: all 0.25s var(--ease-smooth);
+        }
+        .massing-type-btn:hover { border-color: var(--brass); color: var(--ivory); }
+        .massing-type-btn.active { background: var(--brass); border-color: var(--brass); color: var(--ink); }
+
+        .massing-stage {
+            position: relative; aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--hairline-strong); background: radial-gradient(circle at 50% 30%, #201f18, var(--ink) 78%);
+        }
+        .massing-canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+        .massing-canvas:active { cursor: grabbing; }
+        .massing-hud {
+            position: absolute; left: 18px; bottom: 16px; z-index: 3;
+            font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.05em; color: var(--text-muted);
+            background: rgba(14,13,11,0.55); border: 1px solid var(--hairline); border-radius: 100px;
+            padding: 8px 14px; pointer-events: none; display: flex; align-items: center; gap: 8px;
+        }
+        .massing-hud svg { width: 13px; height: 13px; flex-shrink: 0; }
+        .massing-label {
+            position: absolute; right: 18px; top: 16px; z-index: 3;
+            font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--brass-bright); background: rgba(14,13,11,0.55); border: 1px solid var(--hairline);
+            border-radius: 100px; padding: 8px 14px; pointer-events: none;
+        }
+        .massing-loading, .massing-fallback {
+            position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 14px; text-align: center; padding: 32px; z-index: 4; background: var(--ink);
+            transition: opacity 0.4s ease; color: var(--text-muted); font-size: 0.85rem;
+        }
+        .massing-fallback { display: none; }
+        .massing-spinner {
+            width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--hairline-strong);
+            border-top-color: var(--brass-bright); animation: spin 0.9s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .massing-fallback svg { width: 64px; height: 64px; color: var(--brass); opacity: 0.7; margin-bottom: 4px; }
+        .massing-caption { margin-top: 18px; font-size: 0.82rem; color: var(--text-muted); }
+        .massing-caption strong { color: var(--text-body); font-weight: 500; }
+
+        /* =========================================
+           12. INTERACTIVE BLUEPRINT (signature color-shift moment)
+           ========================================= */
+        .blueprint-section {
+            background: var(--bp-ink); border-bottom: 1px solid var(--hairline);
+            background-image:
+                linear-gradient(rgba(201,230,245,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(201,230,245,0.05) 1px, transparent 1px);
+            background-size: 34px 34px;
+        }
+        .blueprint-section .eyebrow { color: var(--bp-line-bright); }
+        .blueprint-section .eyebrow::before { background: var(--bp-line); }
+        .blueprint-section h2 { color: #eef7fb; }
+        .blueprint-section .section-intro-text { color: #a9c9dc; }
+
+        .blueprint-layout { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 48px; align-items: start; }
+        .blueprint-toggle { display: inline-flex; border: 1px solid var(--bp-hairline); border-radius: 100px; padding: 4px; gap: 4px; margin-top: 24px; }
+        .blueprint-toggle-btn {
+            background: transparent; border: none; color: #a9c9dc; font-size: 0.76rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 18px; border-radius: 100px;
+            cursor: pointer; transition: all 0.25s var(--ease-smooth); font-family: var(--font-body);
+        }
+        .blueprint-toggle-btn.active { background: var(--brass); color: var(--ink); }
+        .blueprint-legend { margin-top: 22px; font-size: 0.82rem; color: #7fa3b8; line-height: 1.6; }
+        .blueprint-legend strong { color: var(--bp-line-bright); font-weight: 600; }
+
+        .blueprint-stage {
+            position: relative; border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--bp-hairline); background: var(--bp-paper);
+            box-shadow: 0 30px 60px rgba(2, 12, 22, 0.5);
+        }
+        .blueprint-stage svg { width: 100%; height: auto; display: block; }
+        .bp-room { fill: rgba(201,230,245,0.06); stroke: var(--bp-line); stroke-width: 1.4; cursor: pointer; transition: fill 0.2s ease, stroke 0.2s ease; }
+        .bp-room:hover, .bp-room:focus-visible { fill: rgba(184,144,90,0.28); stroke: var(--brass-bright); }
+        .bp-room:focus-visible { outline: none; }
+        .bp-wall { fill: none; stroke: var(--bp-line-bright); stroke-width: 3; }
+        .bp-dim-line { stroke: #5f8aa1; stroke-width: 1; }
+        .bp-dim-text { fill: #7fa3b8; font-family: var(--font-mono); font-size: 9px; }
+        .bp-room-label { fill: var(--bp-line-bright); font-family: var(--font-mono); font-size: 10px; pointer-events: none; text-anchor: middle; }
+        .bp-layer-structural { display: none; }
+        .blueprint-stage svg.mode-structural .bp-layer-furnished { display: none; }
+        .blueprint-stage svg.mode-structural .bp-layer-structural { display: block; }
+        .bp-grid-dot { fill: rgba(201,230,245,0.35); pointer-events: none; }
+        .bp-furniture { fill: none; stroke: #6fa2bd; stroke-width: 1.1; pointer-events: none; }
+        .bp-dim-line, .bp-dim-text, .bp-wall { pointer-events: none; }
+
+        .bp-tooltip {
+            position: absolute; z-index: 5; background: var(--ink); border: 1px solid var(--brass);
+            border-radius: var(--radius-sm); padding: 10px 14px; font-family: var(--font-mono);
+            font-size: 0.72rem; color: var(--ivory); pointer-events: none; opacity: 0; transform: translate(-50%, -12px);
+            transition: opacity 0.15s ease; white-space: nowrap; box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+        }
+        .bp-tooltip.show { opacity: 1; }
+        .bp-tooltip .bp-tooltip-area { color: var(--brass-bright); }
+
+        /* =========================================
+           13. PROJECTS
            ========================================= */
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; }
 
@@ -297,12 +477,13 @@
         .tag {
             font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700;
             color: var(--ink); background: var(--brass-bright); padding: 5px 12px; border-radius: 100px;
+            font-family: var(--font-mono);
         }
         .project-card h3 { font-size: 1.35rem; margin-bottom: 8px; }
         .project-card p { font-size: 0.9rem; color: #d8d3c6; }
 
         /* =========================================
-           11. TESTIMONIALS (floating reviews)
+           14. TESTIMONIALS (floating reviews)
            ========================================= */
         .testimonials-section { background: var(--surface); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); overflow: hidden; }
         .testi-track { display: flex; gap: 24px; width: max-content; animation: testiScroll 52s linear infinite; }
@@ -331,32 +512,38 @@
         @keyframes testiScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* =========================================
-           12. FAQ
+           15. FAQ
            ========================================= */
         .faq-list { max-width: 820px; margin: 0 auto; }
         .faq-item { border-bottom: 1px solid var(--hairline); }
         .faq-question {
             width: 100%; background: none; border: none; text-align: left; cursor: pointer;
-            padding: 24px 4px; display: flex; align-items: center; justify-content: space-between;
+            padding: 24px 4px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
             color: var(--ivory); font-family: var(--font-display); font-size: 1.12rem;
         }
-        .faq-question .plus { font-size: 1.3rem; color: var(--brass-bright); transition: transform 0.3s var(--ease-smooth); flex-shrink: 0; margin-left: 20px; }
+        .faq-question .plus { font-size: 1.3rem; color: var(--brass-bright); transition: transform 0.3s var(--ease-smooth); flex-shrink: 0; }
         .faq-item.open .plus { transform: rotate(45deg); }
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s var(--ease-smooth); }
         .faq-answer p { padding: 0 4px 24px; color: var(--text-muted); font-size: 0.95rem; max-width: 680px; }
 
         /* =========================================
-           13. CONTACT
+           16. CONTACT
            ========================================= */
         .contact-wrapper { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; align-items: start; }
 
         .contact-info { padding: 36px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-md); }
         .info-item { margin-bottom: 28px; }
-        .info-item h4 { color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; font-family: var(--font-body); font-weight: 600; }
+        .info-item h4 { color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; font-family: var(--font-mono); font-weight: 600; }
         .info-item p, .info-item a { color: var(--ivory); font-size: 1.05rem; }
         .info-item a:hover { color: var(--brass-bright); }
-        .map-frame { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--hairline); margin-top: 6px; }
-        .map-frame iframe { width: 100%; height: 200px; border: 0; filter: grayscale(0.4) invert(0.92) contrast(0.9); display: block; }
+        .map-frame { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--hairline); margin-top: 6px; position: relative; }
+        .map-frame iframe { width: 100%; height: 200px; border: 0; filter: grayscale(0.5) invert(0.9) contrast(0.88); display: block; }
+        .map-directions {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+            font-size: 0.8rem; color: var(--brass-bright); font-weight: 600;
+        }
+        .map-directions:hover { color: var(--ivory); }
+        .map-directions svg { width: 13px; height: 13px; }
 
         .contact-form-panel { padding: 40px; background: var(--surface); border: 1px solid var(--hairline); border-radius: var(--radius-md); }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
@@ -370,12 +557,14 @@
         input:focus, select:focus, textarea:focus { border-color: var(--brass); background: rgba(0,0,0,0.25); box-shadow: 0 0 0 3px var(--brass-glow); }
         select { color: var(--text-muted); }
         select:valid { color: var(--ivory); }
-        label { display: none; }
+        label { display: block; color: var(--text-muted); margin-bottom: 8px; font-size: 0.88rem; }
+        .form-consent { font-size: 0.78rem; color: var(--text-muted); margin-top: 14px; line-height: 1.5; }
+
         .field-error { color: #d98a5f; font-size: 0.78rem; margin-top: 6px; display: none; }
         .field-error.show { display: block; }
 
         /* =========================================
-           14. BUTTONS
+           17. BUTTONS
            ========================================= */
         .btn-primary {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -398,7 +587,7 @@
         footer { border-top: 1px solid var(--hairline); padding: 64px 0 32px; }
         .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
         .footer-brand p { color: var(--text-muted); font-size: 0.92rem; margin-top: 14px; max-width: 280px; }
-        .footer-col h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--brass-bright); margin-bottom: 16px; }
+        .footer-col h4 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--brass-bright); margin-bottom: 16px; font-family: var(--font-mono); }
         .footer-col ul li { margin-bottom: 10px; }
         .footer-col a { color: var(--text-muted); font-size: 0.9rem; }
         .footer-col a:hover { color: var(--ivory); }
@@ -414,9 +603,9 @@
         .footer-socials a:hover { border-color: var(--brass); color: var(--brass-bright); }
 
         /* =========================================
-           15. VIDEO MODAL
+           18. VIDEO MODAL
            ========================================= */
-        #video-modal, #ai-modal-removed {
+        #video-modal {
             position: fixed; inset: 0; background: rgba(6,5,4,0.94); backdrop-filter: blur(14px);
             z-index: 2000; display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: 0.3s ease; padding: 20px;
@@ -431,30 +620,68 @@
         }
 
         /* =========================================
-           16. MOBILE DRAWER
+           19. MOBILE DRAWER
            ========================================= */
         #drawer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: rgba(14,13,11,0.98); backdrop-filter: blur(20px);
-            z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            gap: 34px; transform: translateX(100%); transition: transform 0.4s var(--ease-smooth);
+            z-index: 1001; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 24px; transform: translateX(100%); transition: transform 0.4s var(--ease-smooth);
+            overflow-y: auto; padding: 100px 24px 40px;
         }
         #drawer.open { transform: translateX(0); }
-        #drawer a { font-size: 1.7rem; color: var(--ivory); font-family: var(--font-display); }
-        #drawer .nav-cta { margin-top: 10px; }
+        #drawer a { font-size: 1.5rem; color: var(--ivory); font-family: var(--font-display); }
+        #drawer .nav-cta { margin-top: 10px; font-size: 0.9rem; }
         #drawer-close { position: absolute; top: 26px; right: 24px; background: none; border: none; color: var(--ivory); font-size: 1.8rem; cursor: pointer; width: 44px; height: 44px; }
 
         /* =========================================
-           17. RESPONSIVE
+           20. EASTER EGGS — toast + blueprint overlay
+           ========================================= */
+        .toast {
+            position: fixed; left: 50%; bottom: 32px; transform: translateX(-50%) translateY(20px);
+            background: var(--ink); border: 1px solid var(--brass); border-radius: 100px;
+            padding: 14px 24px; font-size: 0.82rem; color: var(--ivory); z-index: 3000;
+            opacity: 0; pointer-events: none; transition: opacity 0.35s var(--ease-smooth), transform 0.35s var(--ease-smooth);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.45); display: flex; align-items: center; gap: 10px;
+            max-width: calc(100vw - 40px); text-align: center;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast svg { width: 15px; height: 15px; color: var(--brass-bright); flex-shrink: 0; }
+
+        #secret-grid-overlay {
+            position: fixed; inset: 0; z-index: 9000; pointer-events: none;
+            opacity: 0; transition: opacity 0.5s ease;
+            background-image:
+                linear-gradient(rgba(184,144,90,0.16) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(184,144,90,0.16) 1px, transparent 1px);
+            background-size: 8.333% 40px;
+        }
+        #secret-grid-overlay.active { opacity: 1; }
+        #secret-grid-overlay .tag {
+            position: absolute; bottom: 20px; right: 20px; background: var(--ink); color: var(--brass-bright);
+            font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; padding: 8px 14px;
+            border: 1px solid var(--brass); border-radius: 100px;
+        }
+        #compass-burst { position: fixed; inset: 0; z-index: 8999; pointer-events: none; opacity: 0; transition: opacity 0.6s ease; }
+        #compass-burst.active { opacity: 1; }
+        #compass-burst circle { transform-origin: center; }
+
+        /* =========================================
+           21. RESPONSIVE
            ========================================= */
         @media (max-width: 1024px) {
             .desktop-nav { display: none; }
             #mobile-toggle { display: flex; }
             .about-grid { grid-template-columns: 1fr; }
             .about-media { order: -1; aspect-ratio: 16/9; }
+            .tech-layout { grid-template-columns: 1fr; gap: 40px; }
             .process-grid { grid-template-columns: repeat(2, 1fr); }
             .process-step:nth-child(3) { border-left: none; }
             .process-step { border-bottom: 1px solid var(--hairline); }
+            .massing-layout { grid-template-columns: 1fr; gap: 32px; }
+            .massing-stage { order: -1; }
+            .blueprint-layout { grid-template-columns: 1fr; gap: 32px; }
+            .blueprint-stage { order: -1; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
         }
 
@@ -464,12 +691,18 @@
             .form-grid { grid-template-columns: 1fr; }
             #header { top: 12px; padding: 0 14px; }
             .nav-pill { height: 64px; padding: 0 8px 0 14px; }
+            #header.scrolled .nav-pill { height: 56px; }
             .logo-text .name { font-size: 1rem; }
             .btn-group { flex-direction: column; align-items: stretch; }
             .btn-group a, .btn-group button { width: 100%; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .process-grid { grid-template-columns: 1fr; }
             .process-step { border-left: none !important; }
+            .tech-row { grid-template-columns: 1fr; row-gap: 8px; }
+            .tech-row-label { padding-top: 0; }
+            .tech-row-data { text-align: left; padding-top: 4px; }
+            .massing-types { gap: 8px; }
+            .massing-type-btn { padding: 10px 16px; font-size: 0.72rem; }
             .contact-info, .contact-form-panel { padding: 26px; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
             .testi-card { width: 300px; }
@@ -479,39 +712,48 @@
         @media (max-width: 420px) {
             .hero-title { font-size: clamp(2.1rem, 9vw, 2.6rem); }
             .container { padding: 0 18px; }
+            .massing-stage { aspect-ratio: 1/1; }
         }
     </style>
 </head>
 <body>
 
     <canvas id="fluid-canvas"></canvas>
+    <div id="secret-grid-overlay" aria-hidden="true"><span class="tag mono">Blueprint mode — on</span></div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
     <!-- HEADER -->
     <header id="header">
         <div class="nav-pill">
-            <a href="#home" class="logo" aria-label="Rishiraj Enterprises home">
+            <button class="logo" id="logo-trigger" aria-label="Rishiraj Enterprises home — scroll to top">
                 <span class="logo-mark">RE</span>
                 <span class="logo-text">
                     <span class="name">Rishiraj</span>
                     <span class="tagline">Enterprises</span>
                 </span>
-            </a>
+            </button>
 
-            <nav class="desktop-nav">
+            <nav class="desktop-nav" aria-label="Primary">
                 <ul>
                     <li><a href="#about" class="nav-link">About</a></li>
                     <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#massing" class="nav-link">Explore 3D</a></li>
                     <li><a href="#projects" class="nav-link">Projects</a></li>
                     <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li><a href="#faq" class="nav-link">FAQ</a></li>
                     <li><a href="#contact" class="nav-cta">Start a Project</a></li>
                 </ul>
             </nav>
 
             <button id="mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <svg class="icon-menu" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                     <line x1="3" y1="12" x2="21" y2="12"></line>
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+                <svg class="icon-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                    <line x1="6" y1="18" x2="18" y2="6"></line>
                 </svg>
             </button>
         </div>
@@ -522,7 +764,9 @@
         <button id="drawer-close" aria-label="Close menu">&times;</button>
         <a href="#about">About</a>
         <a href="#services">Services</a>
+        <a href="#massing">Explore 3D</a>
         <a href="#projects">Projects</a>
+        <a href="#blueprint">Blueprint</a>
         <a href="#reviews">Reviews</a>
         <a href="#faq">FAQ</a>
         <a href="#contact" class="nav-cta">Start a Project</a>
@@ -531,7 +775,7 @@
     <!-- VIDEO MODAL -->
     <div id="video-modal" role="dialog" aria-modal="true" aria-label="Studio showreel">
         <div class="video-container">
-            <button class="close-modal" onclick="toggleVideo(false)" aria-label="Close video">&times;</button>
+            <button class="close-modal" id="video-close" aria-label="Close video">&times;</button>
             <video id="showreel" controls poster="https://images.unsplash.com/photo-1493397212122-2b85dda8106b?q=80&w=1600&auto=format&fit=crop">
                 <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
                 Your browser does not support embedded video.
@@ -543,18 +787,18 @@
     <!-- HERO -->
     <section id="home" class="hero-section">
         <div class="hero-content">
-            <div class="eyebrow" style="justify-content:center;">Guwahati · Northeast India · Est. 2010</div>
+            <div class="eyebrow" style="justify-content:center;">Guwahati · Pan India · 30+ Years</div>
             <h1 class="hero-title">Spaces built to <em>last</em>, designed to be felt</h1>
-            <p class="hero-text">Rishiraj Enterprises plans, designs and builds hospitality, corporate and residential projects across the Northeast — from first sketch to final handover.</p>
+            <p class="hero-text">Rishiraj Enterprises plans, designs and builds hospitality, corporate and residential projects — from our home base in the Northeast to sites across India — from first sketch to final handover.</p>
             <div class="btn-group">
                 <a href="#projects" class="btn-primary">View Our Work</a>
-                <button class="btn-outline" onclick="toggleVideo(true)">
+                <button class="btn-outline" id="watch-story-btn">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     Watch Our Story
                 </button>
             </div>
         </div>
-        <div class="hero-scroll-cue"><span>Scroll</span><span class="line"></span></div>
+        <button class="hero-scroll-cue" id="scroll-cue" aria-label="Scroll to next section"><span>Scroll</span><span class="line"></span></button>
     </section>
 
     <!-- TRUSTED BY -->
@@ -573,7 +817,7 @@
             <div class="stats-grid">
                 <div class="stat-item"><div class="stat-number" data-target="1500000">0</div><div class="stat-label">Sq. Ft. Designed</div></div>
                 <div class="stat-item"><div class="stat-number" data-target="120">0</div><div class="stat-label">Projects Completed</div></div>
-                <div class="stat-item"><div class="stat-number" data-target="15">0</div><div class="stat-label">Years in Practice</div></div>
+                <div class="stat-item"><div class="stat-number" data-target="30">0</div><div class="stat-label">Years in Practice</div></div>
                 <div class="stat-item"><div class="stat-number" data-target="45">0</div><div class="stat-label">Design Awards</div></div>
             </div>
         </div>
@@ -583,21 +827,79 @@
     <section id="about">
         <div class="container">
             <div class="about-grid">
-                <div class="about-copy">
+                <div class="about-copy reveal">
                     <div class="eyebrow">About the studio</div>
                     <h2 style="margin-bottom:20px;">A regional practice, built on national-grade standards</h2>
-                    <p>Rishiraj Enterprises is a multidisciplinary architecture, interior design and construction firm based in Guwahati. For over fifteen years we've worked alongside developers, hospitality groups and public institutions to deliver buildings that hold up to daily use and still feel considered years later.</p>
+                    <p>Rishiraj Enterprises is a multidisciplinary architecture, interior design and construction firm based in Guwahati. For over thirty years we've worked alongside developers, hospitality groups and public institutions across India to deliver buildings that hold up to daily use and still feel considered years later.</p>
                     <p>Every project is led by the same core team from concept through handover — one point of contact, one set of drawings, one standard of finish — so nothing gets lost in translation between design and site.</p>
+                    <p>The Northeast sets its own brief: a humid, high-rainfall climate, some of the most seismically active ground in the country, and sites that are rarely flat or simple to access. We treat those as design inputs, not obstacles — they shape everything from foundation depth to roof overhang before a single elevation is drawn.</p>
+                    <p>That regional grounding is matched with a national outlook. As our client base has grown beyond Assam, we've kept the same habits that built our reputation here: realistic timelines, transparent costing, and drawings that match what actually gets built.</p>
                     <div class="about-quote">
                         "Good architecture in this region has to answer to the climate, the site and the budget — in that order. We design for all three."
                         <span>— Founding Principal, Rishiraj Enterprises</span>
                     </div>
                 </div>
-                <div class="about-media">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Interior workspace designed by Rishiraj Enterprises" loading="lazy" onerror="this.closest('.about-media').style.background='linear-gradient(135deg, var(--surface), var(--surface-2))'; this.remove();">
+                <div class="about-media reveal reveal-2">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Interior workspace designed by Rishiraj Enterprises" loading="lazy" onerror="this.remove();">
                     <div class="about-media-badge">
                         <span class="num">30+</span>
-                        <span class="label">Years designing and building across Assam and the Northeast</span>
+                        <span class="label">Years designing and building across India</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNICAL CAPABILITIES -->
+    <section class="tech-section" id="capabilities">
+        <div class="container">
+            <div class="tech-layout">
+                <div class="tech-intro reveal">
+                    <div class="eyebrow">Engineering &amp; standards</div>
+                    <h2>The technical foundation behind every design</h2>
+                    <p>A beautiful drawing means nothing if it can't be built safely, in this climate, on this ground. Every project moves through the same set of technical checks before it reaches site — regardless of scale.</p>
+                    <p>This is the part of the process clients rarely see. We think it's worth showing.</p>
+                </div>
+                <div class="tech-list">
+                    <div class="tech-row reveal">
+                        <div class="tech-row-label mono">Structural</div>
+                        <div class="tech-row-body">
+                            <h3>Seismic-first structural design</h3>
+                            <p>Assam and the wider Northeast sit within India's highest seismic hazard classification. Every structure we design accounts for ductile detailing, ground conditions and lateral load paths from the first structural sketch — not as a compliance step added later.</p>
+                        </div>
+                        <div class="tech-row-data mono">Zone V · IS 1893</div>
+                    </div>
+                    <div class="tech-row reveal reveal-1">
+                        <div class="tech-row-label mono">Climate</div>
+                        <div class="tech-row-body">
+                            <h3>Engineered for the monsoon</h3>
+                            <p>Deep overhangs, positive drainage falls, and waterproofing detailed at every roof and podium junction — standard practice in a region that sees some of the heaviest rainfall in the country. Passive cross-ventilation reduces reliance on mechanical cooling for most of the year.</p>
+                        </div>
+                        <div class="tech-row-data mono">Humid subtropical</div>
+                    </div>
+                    <div class="tech-row reveal reveal-2">
+                        <div class="tech-row-label mono">Documentation</div>
+                        <div class="tech-row-body">
+                            <h3>Modelled before it's built</h3>
+                            <p>Structural, architectural and MEP drawings are coordinated digitally before issue, so clashes between a beam and a duct get caught on screen, not on site. Clients typically walk through an interactive 3D massing study before detailed design begins — you can try a version of that below.</p>
+                        </div>
+                        <div class="tech-row-data mono">BIM-coordinated</div>
+                    </div>
+                    <div class="tech-row reveal reveal-3">
+                        <div class="tech-row-label mono">Materials</div>
+                        <div class="tech-row-body">
+                            <h3>Regional materials, engineered tolerances</h3>
+                            <p>Local stone, timber and Assam's long tradition of bamboo craft sit alongside engineered steel, glass and concrete — chosen on merit for each application, sourced where the quality-to-cost ratio actually works, and specified to a tolerance a site crew can hit.</p>
+                        </div>
+                        <div class="tech-row-data mono">Local + engineered</div>
+                    </div>
+                    <div class="tech-row reveal reveal-4">
+                        <div class="tech-row-label mono">Compliance</div>
+                        <div class="tech-row-body">
+                            <h3>Built to code, inspected on schedule</h3>
+                            <p>Design and detailing follow the National Building Code of India, with a fixed site-inspection cadence and a named safety point of contact on every active site — including projects executed inside live, operating buildings.</p>
+                        </div>
+                        <div class="tech-row-data mono">NBC-aligned</div>
                     </div>
                 </div>
             </div>
@@ -605,30 +907,30 @@
     </section>
 
     <!-- PROCESS -->
-    <section class="process-section">
+    <section class="process-section" id="process">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <div class="eyebrow">How we work</div>
                 <h2>From first meeting to final key handover</h2>
             </div>
             <div class="process-grid">
-                <div class="process-step">
-                    <div class="process-num">01</div>
+                <div class="process-step reveal">
+                    <div class="process-num mono">01</div>
                     <h3>Consultation</h3>
-                    <p>We visit the site, understand your brief, budget and timeline, and confirm feasibility before any design work begins.</p>
+                    <p>We visit the site, assess soil and access conditions, and confirm feasibility against your brief, budget and timeline before any design work begins.</p>
                 </div>
-                <div class="process-step">
-                    <div class="process-num">02</div>
+                <div class="process-step reveal reveal-1">
+                    <div class="process-num mono">02</div>
                     <h3>Design &amp; Planning</h3>
-                    <p>Concept drawings, 3D visualisation, material selection and statutory approvals, refined with you until every detail is signed off.</p>
+                    <p>Concept drawings, 3D massing and material selection, refined with you and checked against statutory and structural requirements until every detail is signed off.</p>
                 </div>
-                <div class="process-step">
-                    <div class="process-num">03</div>
+                <div class="process-step reveal reveal-2">
+                    <div class="process-num mono">03</div>
                     <h3>Execution</h3>
-                    <p>In-house project managers and vetted contractors keep construction on schedule, with weekly site reports and site visits.</p>
+                    <p>In-house project managers and vetted contractors keep construction on schedule, with weekly site reports, safety checks and scheduled inspection visits.</p>
                 </div>
-                <div class="process-step">
-                    <div class="process-num">04</div>
+                <div class="process-step reveal reveal-3">
+                    <div class="process-num mono">04</div>
                     <h3>Handover &amp; Support</h3>
                     <p>A final walkthrough, snag-list closure, and a maintenance point of contact for the first year after handover.</p>
                 </div>
@@ -639,52 +941,215 @@
     <!-- SERVICES -->
     <section id="services">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <div class="eyebrow">What we do</div>
                 <h2>Services</h2>
                 <p>Comprehensive solutions from blueprint to reality — engaged individually or as a single turnkey scope.</p>
             </div>
             <div class="services-grid">
-                <div class="glass-card">
+                <div class="glass-card reveal">
                     <div>
                         <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-4h8v4"/></svg></div>
                         <h3>Architecture</h3>
-                        <p>Concept design, structural planning and statutory drawings for commercial, hospitality and residential buildings.</p>
+                        <p>Concept design, structural planning and statutory drawings for commercial, hospitality and residential buildings. Massing and climate response are studied together from the earliest sketch, not bolted on afterward.</p>
                     </div>
                 </div>
-                <div class="glass-card">
+                <div class="glass-card reveal reveal-1">
                     <div>
                         <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
                         <h3>Interior Design</h3>
-                        <p>Tailored, liveable environments that balance ergonomics with durable, high-end material finishes.</p>
+                        <p>Tailored, liveable environments that balance ergonomics with durable, high-end material finishes — material palettes and lighting plans developed specifically for hospitality, corporate or residential use.</p>
                     </div>
                 </div>
-                <div class="glass-card">
+                <div class="glass-card reveal reveal-2">
                     <div>
                         <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
                         <h3>Project Management</h3>
-                        <p>Dedicated site supervision, vendor coordination and schedule tracking so timelines are met without compromising quality.</p>
+                        <p>Dedicated site supervision, vendor vetting and schedule tracking so timelines are met without compromising quality — with fixed QA checkpoints built into every construction phase.</p>
                     </div>
                 </div>
-                <div class="glass-card">
+                <div class="glass-card reveal reveal-3">
                     <div>
                         <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></div>
                         <h3>Turnkey Construction</h3>
-                        <p>Single-contract build execution — civil, MEP and finishing — delivered to the approved design and specification.</p>
+                        <p>Single-contract build execution — civil, MEP and finishing — delivered to the approved design and specification, with one point of accountability from foundation to fit-out.</p>
                     </div>
                 </div>
-                <div class="glass-card">
+                <div class="glass-card reveal reveal-4">
                     <div>
                         <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20h16M6 20V10l6-6 6 6v10M10 20v-6h4v6"/></svg></div>
                         <h3>Renovation &amp; Retrofit</h3>
-                        <p>Structural upgrades and full interior refits for ageing properties, hotels and office spaces, with minimal downtime.</p>
+                        <p>Structural upgrades — including seismic retrofitting for older structures — and full interior refits for ageing properties, hotels and office spaces, with minimal downtime for live sites.</p>
                     </div>
                 </div>
-                <div class="glass-card">
+                <div class="glass-card reveal reveal-5">
                     <div>
                         <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 4v8l5 3"/></svg></div>
                         <h3>Sustainability Consulting</h3>
-                        <p>Passive cooling, daylighting and material choices that lower long-term operating and maintenance costs.</p>
+                        <p>Passive cooling, daylighting and rainwater harvesting strategies suited to a high-rainfall climate, plus material choices that lower long-term operating and maintenance costs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MASSING / 3D EXPLORER -->
+    <section class="massing-section" id="massing">
+        <div class="container">
+            <div class="massing-layout">
+                <div class="massing-intro reveal">
+                    <div class="eyebrow">Interactive · 3D</div>
+                    <h2>Explore the massing</h2>
+                    <p>Long before a facade is drawn, we study a building as a "massing model" — a simplified 3D study of its volume, proportion and relationship to the site. It's how we test whether a form actually works before investing in detail.</p>
+                    <p>Try it yourself: drag to orbit, scroll or pinch to zoom, and switch between three typologies we design often.</p>
+                    <div class="massing-types" role="group" aria-label="Choose a building typology">
+                        <button class="massing-type-btn active" data-type="residential">Residential</button>
+                        <button class="massing-type-btn" data-type="hospitality">Hospitality</button>
+                        <button class="massing-type-btn" data-type="commercial">Commercial</button>
+                    </div>
+                </div>
+                <div>
+                    <div class="massing-stage reveal reveal-2" id="massing-stage">
+                        <div class="massing-label mono" id="massing-current-label">Residential</div>
+                        <div class="massing-canvas" id="massing-canvas"></div>
+                        <div class="massing-hud mono">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 5v14M5 12h14"/></svg>
+                            Drag to rotate · Scroll to zoom
+                        </div>
+                        <div class="massing-loading" id="massing-loading">
+                            <div class="massing-spinner" aria-hidden="true"></div>
+                            <span class="mono">Loading massing study…</span>
+                        </div>
+                        <div class="massing-fallback" id="massing-fallback">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 21V9l8-6 8 6v12M4 21h16M9 21v-7h6v7"/></svg>
+                            <p><strong>Interactive 3D isn't available in this browser.</strong><br>Try a recent version of Chrome, Safari or Edge to explore the massing model.</p>
+                        </div>
+                    </div>
+                    <p class="massing-caption">Illustrative massing studies for demonstration — <strong>not</strong> drawings of a specific built project.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE BLUEPRINT (signature section) -->
+    <section class="blueprint-section" id="blueprint">
+        <div class="container">
+            <div class="blueprint-layout">
+                <div class="blueprint-intro reveal">
+                    <div class="eyebrow">Interactive · Sample drawing</div>
+                    <h2>Behind every elevation is a plan like this</h2>
+                    <p class="section-intro-text">Every project starts life as a line drawing — walls, openings and clearances worked out in plan before anything looks beautiful. Hover or tab through the rooms below to see how a drawing like this actually reads.</p>
+                    <div class="blueprint-toggle" role="group" aria-label="Choose a drawing layer">
+                        <button class="blueprint-toggle-btn active" data-mode="furnished">Furnished Layout</button>
+                        <button class="blueprint-toggle-btn" data-mode="structural">Structural Grid</button>
+                    </div>
+                    <p class="blueprint-legend">Sample two-bedroom layout, <strong>≈ 1,390 sq ft</strong> · dimensions and areas shown are illustrative, not a specific built project.</p>
+                </div>
+                <div>
+                    <div class="blueprint-stage reveal reveal-2">
+                        <svg id="blueprint-svg" viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Interactive sample floor plan. Tab through to hear each room's name and approximate size.">
+
+                            <!-- Dimensions -->
+                            <g class="bp-dim">
+                                <line class="bp-dim-line" x1="80" y1="38" x2="80" y2="48"></line>
+                                <line class="bp-dim-line" x1="820" y1="38" x2="820" y2="48"></line>
+                                <line class="bp-dim-line" x1="80" y1="42" x2="820" y2="42"></line>
+                                <text class="bp-dim-text" x="450" y="30" text-anchor="middle">58'-0" OVERALL</text>
+
+                                <line class="bp-dim-line" x1="48" y1="60" x2="58" y2="60"></line>
+                                <line class="bp-dim-line" x1="48" y1="540" x2="58" y2="540"></line>
+                                <line class="bp-dim-line" x1="52" y1="60" x2="52" y2="540"></line>
+                                <text class="bp-dim-text" x="0" y="0" text-anchor="middle" transform="translate(34,300) rotate(-90)">38'-0" OVERALL</text>
+
+                                <line class="bp-dim-line" x1="430" y1="558" x2="430" y2="568"></line>
+                                <line class="bp-dim-line" x1="480" y1="558" x2="480" y2="568"></line>
+                                <line class="bp-dim-line" x1="430" y1="563" x2="480" y2="563"></line>
+                                <text class="bp-dim-text" x="455" y="580" text-anchor="middle">3'-11" CORR.</text>
+                            </g>
+
+                            <!-- North arrow -->
+                            <g class="mono" style="pointer-events:none;">
+                                <line x1="852" y1="90" x2="852" y2="58" stroke="#7fa3b8" stroke-width="1.2"></line>
+                                <path d="M852 52 L847 63 L857 63 Z" fill="#7fa3b8"></path>
+                                <text x="852" y="105" text-anchor="middle" class="bp-dim-text">N</text>
+                            </g>
+
+                            <!-- Outer wall + corridor spine -->
+                            <rect class="bp-wall" x="80" y="60" width="740" height="480" rx="2"></rect>
+                            <rect x="430" y="60" width="50" height="480" fill="rgba(201,230,245,0.04)" stroke="#3f6d88" stroke-width="1" style="pointer-events:none;"></rect>
+                            <text class="bp-dim-text" x="455" y="300" text-anchor="middle" transform="rotate(-90 455 300)" style="pointer-events:none;">CORRIDOR</text>
+
+                            <!-- Structural grid (shown only in structural mode) -->
+                            <g class="bp-layer bp-layer-structural" id="bp-grid-dots"></g>
+
+                            <!-- Furnished layer -->
+                            <g class="bp-layer bp-layer-furnished">
+                                <!-- Living / Dining -->
+                                <rect class="bp-furniture" x="110" y="90" width="130" height="55" rx="8"></rect>
+                                <rect class="bp-furniture" x="150" y="155" width="50" height="26"></rect>
+                                <rect class="bp-furniture" x="300" y="215" width="100" height="55"></rect>
+                                <circle class="bp-furniture" cx="300" cy="200" r="8"></circle>
+                                <circle class="bp-furniture" cx="400" cy="200" r="8"></circle>
+                                <circle class="bp-furniture" cx="300" cy="285" r="8"></circle>
+                                <circle class="bp-furniture" cx="400" cy="285" r="8"></circle>
+                                <!-- Kitchen -->
+                                <path class="bp-furniture" d="M100 320 H260 M100 320 V400"></path>
+                                <circle class="bp-furniture" cx="130" cy="335" r="7"></circle>
+                                <circle class="bp-furniture" cx="160" cy="335" r="7"></circle>
+                                <!-- Foyer -->
+                                <rect class="bp-furniture" x="300" y="470" width="90" height="24"></rect>
+                                <!-- Master Bedroom -->
+                                <rect class="bp-furniture" x="580" y="90" width="140" height="100" rx="4"></rect>
+                                <line class="bp-furniture" x1="580" y1="118" x2="720" y2="118"></line>
+                                <rect class="bp-furniture" x="555" y="105" width="20" height="30"></rect>
+                                <rect class="bp-furniture" x="725" y="105" width="20" height="30"></rect>
+                                <!-- Master Bath -->
+                                <rect class="bp-furniture" x="500" y="280" width="70" height="35"></rect>
+                                <ellipse class="bp-furniture" cx="620" cy="355" rx="16" ry="20"></ellipse>
+                                <path class="bp-furniture" d="M500 335 a18 18 0 0 1 36 0"></path>
+                                <!-- Balcony -->
+                                <circle class="bp-furniture" cx="690" cy="290" r="10"></circle>
+                                <circle class="bp-furniture" cx="730" cy="290" r="10"></circle>
+                                <rect class="bp-furniture" x="670" y="340" width="120" height="14"></rect>
+                                <!-- Bedroom 2 -->
+                                <rect class="bp-furniture" x="500" y="400" width="110" height="80" rx="4"></rect>
+                                <line class="bp-furniture" x1="500" y1="422" x2="610" y2="422"></line>
+                                <rect class="bp-furniture" x="620" y="470" width="60" height="30"></rect>
+                                <!-- Bath 2 -->
+                                <rect class="bp-furniture" x="670" y="400" width="60" height="60"></rect>
+                                <line class="bp-furniture" x1="670" y1="400" x2="730" y2="460"></line>
+                                <ellipse class="bp-furniture" cx="795" cy="415" rx="14" ry="18"></ellipse>
+                                <path class="bp-furniture" d="M760 470 a16 16 0 0 1 32 0"></path>
+                            </g>
+
+                            <!-- Interactive room hit-areas + labels -->
+                            <g>
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Living / Dining" data-area="≈ 320 sq ft" aria-label="Living and dining room, approximately 320 square feet" x="80" y="60" width="350" height="240"></rect>
+                                <text class="bp-room-label" x="255" y="186">LIVING / DINING</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Kitchen" data-area="≈ 180 sq ft" aria-label="Kitchen, approximately 180 square feet" x="80" y="300" width="200" height="240"></rect>
+                                <text class="bp-room-label" x="180" y="426">KITCHEN</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Foyer" data-area="≈ 130 sq ft" aria-label="Foyer, approximately 130 square feet" x="280" y="300" width="150" height="240"></rect>
+                                <text class="bp-room-label" x="355" y="426">FOYER</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Master Bedroom" data-area="≈ 280 sq ft" aria-label="Master bedroom, approximately 280 square feet" x="480" y="60" width="340" height="200"></rect>
+                                <text class="bp-room-label" x="650" y="166">MASTER BEDROOM</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Master Bath" data-area="≈ 100 sq ft" aria-label="Master bathroom, approximately 100 square feet" x="480" y="260" width="170" height="120"></rect>
+                                <text class="bp-room-label" x="565" y="326">MASTER BATH</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Balcony" data-area="≈ 100 sq ft" aria-label="Balcony, approximately 100 square feet" x="650" y="260" width="170" height="120"></rect>
+                                <text class="bp-room-label" x="735" y="326">BALCONY</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Bedroom 2" data-area="≈ 170 sq ft" aria-label="Bedroom two, approximately 170 square feet" x="480" y="380" width="170" height="160"></rect>
+                                <text class="bp-room-label" x="565" y="466">BEDROOM 2</text>
+
+                                <rect class="bp-room" role="img" tabindex="0" data-room="Bath 2" data-area="≈ 110 sq ft" aria-label="Bathroom two, approximately 110 square feet" x="650" y="380" width="170" height="160"></rect>
+                                <text class="bp-room-label" x="735" y="466">BATH 2</text>
+                            </g>
+                        </svg>
+                        <div class="bp-tooltip mono" id="bp-tooltip"><span id="bp-tooltip-room"></span> · <span class="bp-tooltip-area" id="bp-tooltip-area"></span></div>
                     </div>
                 </div>
             </div>
@@ -694,53 +1159,54 @@
     <!-- PROJECTS -->
     <section id="projects">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <div class="eyebrow">Selected work</div>
                 <h2>Featured Projects</h2>
+                <p>A cross-section of recent work — corporate, residential, hospitality and public infrastructure, spanning concept through construction.</p>
             </div>
             <div class="projects-grid">
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Apex Corporate HQ interior" loading="lazy">
+                <div class="project-card reveal">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Apex Corporate HQ interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Commercial</span><span class="tag">2024</span></div>
                         <h3>Apex Corporate HQ</h3>
                         <p>A five-storey workspace designed around daylight, acoustics and cross-team collaboration.</p>
                     </div>
                 </div>
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=900" class="project-img" alt="The Onyx Villa exterior" loading="lazy">
+                <div class="project-card reveal reveal-1">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=900" class="project-img" alt="The Onyx Villa exterior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Residential</span><span class="tag">Luxury</span></div>
                         <h3>The Onyx Villa</h3>
                         <p>Minimalist luxury built from raw concrete, local stone and smart-glass facades.</p>
                     </div>
                 </div>
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Hotel lobby interior" loading="lazy">
+                <div class="project-card reveal reveal-2">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Hotel lobby interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Hospitality</span><span class="tag">Interiors</span></div>
                         <h3>Riverside Hotel Lobby</h3>
                         <p>A warm, brass-and-stone arrival lobby designed for a leading hospitality chain.</p>
                     </div>
                 </div>
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Airport terminal interior" loading="lazy">
+                <div class="project-card reveal reveal-3">
+                    <img src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Airport terminal interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Institutional</span><span class="tag">Public Infrastructure</span></div>
                         <h3>Terminal Interior Fit-Out</h3>
                         <p>Passenger-facing interior works completed within a live, operating terminal environment.</p>
                     </div>
                 </div>
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Green Leaf Campus exterior" loading="lazy">
+                <div class="project-card reveal reveal-4">
+                    <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Green Leaf Campus exterior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Sustainability</span><span class="tag">Corporate</span></div>
                         <h3>Green Leaf Campus</h3>
                         <p>A near net-zero office campus with vertical gardens, cross-ventilation and rooftop solar.</p>
                     </div>
                 </div>
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Zenith Spa and Resort" loading="lazy">
+                <div class="project-card reveal reveal-5">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Zenith Spa and Resort" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Hospitality</span><span class="tag">Wellness</span></div>
                         <h3>Zenith Spa &amp; Resort</h3>
@@ -754,9 +1220,10 @@
     <!-- TESTIMONIALS -->
     <section class="testimonials-section" id="reviews">
         <div class="container">
-            <div class="section-header center">
+            <div class="section-header center reveal">
                 <div class="eyebrow">Client reviews</div>
                 <h2>What our clients say</h2>
+                <p>Feedback from developers, hoteliers and homeowners we've built alongside.</p>
             </div>
         </div>
         <div class="testi-wrapper marquee-wrapper">
@@ -767,7 +1234,7 @@
     <!-- FAQ -->
     <section id="faq">
         <div class="container">
-            <div class="section-header center">
+            <div class="section-header center reveal">
                 <div class="eyebrow">Good to know</div>
                 <h2>Frequently Asked Questions</h2>
             </div>
@@ -786,7 +1253,15 @@
                 </div>
                 <div class="faq-item">
                     <button class="faq-question">What areas do you serve?<span class="plus">+</span></button>
-                    <div class="faq-answer"><p>We're based in Guwahati and work across Assam and the wider Northeast, with select projects elsewhere in India on request.</p></div>
+                    <div class="faq-answer"><p>We are headquartered in Guwahati and serve clients across India — Pan India projects from concept through delivery.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do you provide 3D visualisation before construction begins?<span class="plus">+</span></button>
+                    <div class="faq-answer"><p>Yes — every project is coordinated digitally before issue, and most clients walk through an interactive 3D massing study during design, similar to the explorer on this page, before detailed drawings are finalised.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What building codes and standards do you follow?<span class="plus">+</span></button>
+                    <div class="faq-answer"><p>All structural and architectural work follows the National Building Code of India and the relevant seismic provisions of IS 1893 for this region's hazard classification, alongside local municipal building bye-laws.</p></div>
                 </div>
             </div>
         </div>
@@ -795,39 +1270,49 @@
     <!-- CONTACT -->
     <section id="contact">
         <div class="container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <div class="eyebrow">Get in touch</div>
                 <h2>Let's talk about your project</h2>
                 <p>Tell us a little about what you're building — we typically respond within one business day.</p>
             </div>
             <div class="contact-wrapper">
-                <div class="contact-info">
-                    <div class="info-item"><h4>Studio</h4><p>Guwahati, Assam, India</p></div>
-                    <div class="info-item"><h4>Email</h4><a href="mailto:contact@rishirajenterprises.com">contact@rishirajenterprises.com</a></div>
-                    <div class="info-item"><h4>Phone</h4><a href="tel:+919876543210">+91 98765 43210</a></div>
+                <div class="contact-info reveal">
+                    <div class="info-item"><h4>Studio</h4><p>Guwahati (Head Office) — Serving Pan India</p></div>
+                    <div class="info-item"><h4>Email</h4><a href="mailto:rishirajenterprisesindia@gmail.com">rishirajenterprisesindia@gmail.com</a></div>
+                    <div class="info-item"><h4>Phone</h4><a href="tel:+919101792945">9101792945</a></div>
                     <div class="info-item"><h4>Studio Hours</h4><p>Mon – Sat, 10:00 AM – 6:30 PM</p></div>
-                    <div class="map-frame">
-                        <iframe src="https://www.google.com/maps?q=Guwahati,Assam&output=embed" loading="lazy" title="Map showing Guwahati, Assam" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="info-item" style="margin-bottom:0;">
+                        <h4>Location</h4>
+                        <div class="map-frame">
+                            <iframe src="https://www.google.com/maps?q=Guwahati,Assam&output=embed" loading="lazy" title="Map showing Guwahati, Assam" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <a class="map-directions" href="https://www.google.com/maps/search/?api=1&query=Guwahati%2C+Assam" target="_blank" rel="noopener noreferrer">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                            Get directions
+                        </a>
                     </div>
                 </div>
 
-                <div class="contact-form-panel">
-                    <form id="contactForm" novalidate>
+                <div class="contact-form-panel reveal reveal-1">
+                    <form id="contactForm" action="https://formsubmit.co/rishirajenterprisesindia@gmail.com" method="POST" novalidate>
+                        <input type="hidden" name="_subject" value="Website inquiry — Rishiraj Enterprises">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="text" name="_honey" style="position:absolute; left:-9999px;" tabindex="-1" autocomplete="off" aria-hidden="true">
                         <div class="form-grid">
                             <div>
                                 <label for="name">Name</label>
-                                <input type="text" id="name" placeholder="Full name" required minlength="2">
+                                <input type="text" id="name" name="name" placeholder="Full name" required minlength="2">
                                 <div class="field-error" id="err-name">Please enter your name.</div>
                             </div>
                             <div>
                                 <label for="email">Email</label>
-                                <input type="email" id="email" placeholder="Email address" required>
+                                <input type="email" id="email" name="email" placeholder="Email address" required>
                                 <div class="field-error" id="err-email">Please enter a valid email.</div>
                             </div>
                         </div>
                         <div style="margin-bottom: 18px;">
                             <label for="service">Service</label>
-                            <select id="service" required>
+                            <select id="service" name="service" required>
                                 <option value="" disabled selected>Select a service</option>
                                 <option value="Architecture">Architecture</option>
                                 <option value="Interior Design">Interior Design</option>
@@ -836,13 +1321,15 @@
                                 <option value="Renovation">Renovation &amp; Retrofit</option>
                                 <option value="Consultation">General Consultation</option>
                             </select>
+                            <div class="field-error" id="err-service">Please select a service.</div>
                         </div>
                         <div style="margin-bottom: 18px;">
                             <label for="message">Message</label>
-                            <textarea id="message" rows="5" placeholder="Tell us roughly what you're planning — location, scale, timeline." required minlength="10"></textarea>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us roughly what you're planning — location, scale, timeline." required minlength="10"></textarea>
                             <div class="field-error" id="err-message">Tell us a bit more (10+ characters).</div>
                         </div>
                         <button type="submit" class="btn-primary">Send Message</button>
+                        <p class="form-consent">By sending this, you agree to be contacted by Rishiraj Enterprises about your enquiry.</p>
                         <p id="form-status" style="margin-top:15px; font-size:0.88rem; color: var(--brass-bright);" role="status"></p>
                     </form>
                 </div>
@@ -854,17 +1341,19 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <div class="logo">
+                    <div class="logo" style="cursor:default;">
                         <span class="logo-mark">RE</span>
                         <span class="logo-text"><span class="name">Rishiraj</span><span class="tagline">Enterprises</span></span>
                     </div>
-                    <p>Architecture, interior design and turnkey construction, based in Guwahati and working across Northeast India.</p>
+                    <p>Architecture, interior design and turnkey construction, based in Guwahati and working across India (Pan India).</p>
                 </div>
                 <div class="footer-col">
                     <h4>Studio</h4>
                     <ul>
                         <li><a href="#about">About</a></li>
-                        <li><a href="#services">Services</a></li>
+                        <li><a href="#capabilities">Capabilities</a></li>
+                        <li><a href="#massing">Explore 3D</a></li>
+                        <li><a href="#blueprint">Blueprint</a></li>
                         <li><a href="#projects">Projects</a></li>
                         <li><a href="#reviews">Reviews</a></li>
                     </ul>
@@ -881,8 +1370,8 @@
                 <div class="footer-col">
                     <h4>Contact</h4>
                     <ul>
-                        <li><a href="mailto:contact@rishirajenterprises.com">contact@rishirajenterprises.com</a></li>
-                        <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+                        <li><a href="mailto:rishirajenterprisesindia@gmail.com">rishirajenterprisesindia@gmail.com</a></li>
+                        <li><a href="tel:+919101792945">9101792945</a></li>
                         <li><a href="#contact">Guwahati, Assam</a></li>
                     </ul>
                 </div>
@@ -898,22 +1387,33 @@
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" onerror="window.__threeFailed = true;"></script>
     <script>
+        'use strict';
+
         // --- DATA: CLIENTS & TESTIMONIALS ---
+        // Client names are illustrative/regional and intentionally consistent with the
+        // testimonials below — no unrelated national brands with no other tie to this site.
         const clients = [
-            "Radisson Blu", "Guwahati Airport · LGBI T2", "Auspire Developers", "Subham Group",
-            "Tata Motors", "Reliance", "Infosys", "HDFC Bank", "Mahindra", "Wipro", "Adani", "ICICI"
+            { name: "Radisson Blu", initials: "RB" },
+            { name: "Guwahati Airport · LGBI T2", initials: "GA" },
+            { name: "Auspire Developers", initials: "AD" },
+            { name: "Subham Group", initials: "SG" },
+            { name: "Kamrup Developers", initials: "KD" },
+            { name: "Brahmaputra Business Park", initials: "BB" },
+            { name: "Dispur Grand Residency", initials: "DG" },
+            { name: "Northeast Frontier Hospitality", initials: "NF" }
         ];
 
         function buildMarquee() {
             const track = document.getElementById('marquee-track');
+            if (!track) return;
             const set = [...clients, ...clients]; // duplicate for seamless loop
-            track.innerHTML = set.map(name => `
+            track.innerHTML = set.map(c => `
                 <div class="client-logo">
-                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><circle cx="12" cy="12" r="9"/></svg>
-                    <span>${name}</span>
-                </div>
-            `).join('');
+                    <span class="client-badge">${c.initials}</span>
+                    <span>${c.name}</span>
+                </div>`).join('');
         }
 
         const testimonials = [
@@ -927,6 +1427,7 @@
 
         function buildTestimonials() {
             const track = document.getElementById('testi-track');
+            if (!track) return;
             const set = [...testimonials, ...testimonials];
             track.innerHTML = set.map(t => `
                 <div class="testi-card">
@@ -943,52 +1444,94 @@
             `).join('');
         }
 
+        // --- TOAST UTILITY ---
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            if (!toast) return;
+            toast.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.2H22l-6 4.6 2.3 7.2-6.3-4.5-6.3 4.5 2.3-7.2-6-4.6h7.6z"/></svg><span>${message}</span>`;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+        }
+
+        // --- SHARED SCROLL LOCK (video modal + drawer can't stomp on each other) ---
+        function updateBodyScrollLock() {
+            const modalOpen = document.getElementById('video-modal')?.classList.contains('active');
+            const drawerOpen = document.getElementById('drawer')?.classList.contains('open');
+            document.body.style.overflow = (modalOpen || drawerOpen) ? 'hidden' : '';
+        }
+
         // --- VIDEO MODAL ---
+        let lastFocusedBeforeModal = null;
         function toggleVideo(show) {
             const modal = document.getElementById('video-modal');
             const video = document.getElementById('showreel');
+            if (!modal) return;
             if (show) {
+                lastFocusedBeforeModal = document.activeElement;
                 modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+                document.getElementById('video-close')?.focus();
             } else {
                 modal.classList.remove('active');
-                document.body.style.overflow = '';
-                video.pause();
+                if (video) video.pause();
+                if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+                    lastFocusedBeforeModal.focus();
+                }
+                lastFocusedBeforeModal = null;
             }
+            updateBodyScrollLock();
         }
-        document.getElementById('video-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'video-modal') toggleVideo(false);
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') toggleVideo(false);
-        });
+
+        // --- MOBILE DRAWER ---
+        let lastFocusedBeforeDrawer = null;
+        function toggleDrawer(state) {
+            const drawer = document.getElementById('drawer');
+            const toggleBtn = document.getElementById('mobile-toggle');
+            const closeBtn = document.getElementById('drawer-close');
+            if (!drawer || !toggleBtn) return;
+            drawer.classList.toggle('open', state);
+            toggleBtn.classList.toggle('is-open', state);
+            toggleBtn.setAttribute('aria-expanded', String(state));
+            if (state) {
+                lastFocusedBeforeDrawer = document.activeElement;
+                closeBtn?.focus();
+            } else if (lastFocusedBeforeDrawer && typeof lastFocusedBeforeDrawer.focus === 'function') {
+                lastFocusedBeforeDrawer.focus();
+                lastFocusedBeforeDrawer = null;
+            }
+            updateBodyScrollLock();
+        }
 
         // --- FAQ ACCORDION ---
         function initFAQ() {
-            document.querySelectorAll('.faq-item').forEach(item => {
+            document.querySelectorAll('.faq-item').forEach((item, idx) => {
                 const q = item.querySelector('.faq-question');
                 const a = item.querySelector('.faq-answer');
+                const panelId = 'faq-panel-' + idx;
+                a.id = panelId;
+                q.setAttribute('aria-expanded', 'false');
+                q.setAttribute('aria-controls', panelId);
                 q.addEventListener('click', () => {
                     const isOpen = item.classList.contains('open');
-                    document.querySelectorAll('.faq-item.open').forEach(open => {
-                        open.classList.remove('open');
-                        open.querySelector('.faq-answer').style.maxHeight = null;
+                    document.querySelectorAll('.faq-item.open').forEach(openItem => {
+                        openItem.classList.remove('open');
+                        openItem.querySelector('.faq-answer').style.maxHeight = null;
+                        openItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
                     });
                     if (!isOpen) {
                         item.classList.add('open');
                         a.style.maxHeight = a.scrollHeight + 'px';
+                        q.setAttribute('aria-expanded', 'true');
                     }
                 });
             });
         }
 
-        // --- MAIN UI LOGIC ---
-        document.addEventListener('DOMContentLoaded', () => {
-            buildMarquee();
-            buildTestimonials();
-            initFAQ();
-
+        // --- HEADER SCROLL STATE ---
+        function initHeaderScroll() {
             const header = document.getElementById('header');
+            if (!header) return;
             const handleScroll = () => {
                 if (window.scrollY > 40) header.classList.add('scrolled');
                 else header.classList.remove('scrolled');
@@ -1000,43 +1543,73 @@
                     ticking = true;
                 }
             });
+            handleScroll();
+        }
 
-            // Mobile drawer
-            const toggle = document.getElementById('mobile-toggle');
-            const close = document.getElementById('drawer-close');
-            const drawer = document.getElementById('drawer');
-            const links = drawer.querySelectorAll('a');
+        // --- SCROLL-REVEAL ---
+        function initReveal() {
+            const targets = document.querySelectorAll('.reveal');
+            if (!targets.length) return;
+            if (!('IntersectionObserver' in window)) {
+                targets.forEach(t => t.classList.add('in-view'));
+                return;
+            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+            targets.forEach(t => observer.observe(t));
+        }
 
-            const toggleDrawer = (state) => {
-                drawer.classList.toggle('open', state);
-                toggle.setAttribute('aria-expanded', String(state));
-                document.body.style.overflow = state ? 'hidden' : '';
-            };
-            toggle.addEventListener('click', () => toggleDrawer(true));
-            close.addEventListener('click', () => toggleDrawer(false));
-            links.forEach(l => l.addEventListener('click', () => toggleDrawer(false)));
-
-            // Contact form validation + fake submit
+        // --- CONTACT FORM VALIDATION + SUBMIT (FormSubmit.co) ---
+        function initContactForm() {
             const form = document.getElementById('contactForm');
+            if (!form) return;
             const status = document.getElementById('form-status');
-            form.addEventListener('submit', (e) => {
+
+            const showError = (input, errId, condition) => {
+                const errEl = document.getElementById(errId);
+                if (!errEl) return;
+                if (!condition) { errEl.classList.add('show'); input.setAttribute('aria-invalid', 'true'); }
+                else { errEl.classList.remove('show'); input.removeAttribute('aria-invalid'); }
+            };
+
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 let valid = true;
                 const name = document.getElementById('name');
                 const email = document.getElementById('email');
+                const service = document.getElementById('service');
                 const message = document.getElementById('message');
+                const honey = form.querySelector('[name="_honey"]');
 
-                const showError = (input, errId, condition) => {
-                    const errEl = document.getElementById(errId);
-                    if (!condition) { errEl.classList.add('show'); valid = false; }
-                    else { errEl.classList.remove('show'); }
-                };
+                const nameOk = name.value.trim().length >= 2;
+                const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
+                const serviceOk = service.value.trim().length > 0;
+                const messageOk = message.value.trim().length >= 10;
 
-                showError(name, 'err-name', name.value.trim().length >= 2);
-                showError(email, 'err-email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value));
-                showError(message, 'err-message', message.value.trim().length >= 10);
+                showError(name, 'err-name', nameOk);
+                showError(email, 'err-email', emailOk);
+                showError(service, 'err-service', serviceOk);
+                showError(message, 'err-message', messageOk);
 
-                if (!valid) { status.style.color = '#d98a5f'; status.innerText = 'Please check the highlighted fields.'; return; }
+                valid = nameOk && emailOk && serviceOk && messageOk;
+
+                if (!valid) {
+                    status.style.color = '#d98a5f';
+                    status.innerText = 'Please check the highlighted fields.';
+                    return;
+                }
+                if (honey && honey.value) {
+                    // Silently drop bot submissions without alerting the (non-human) sender.
+                    status.innerText = '';
+                    form.reset();
+                    return;
+                }
 
                 const btn = form.querySelector('button[type="submit"]');
                 const originalText = btn.innerText;
@@ -1045,32 +1618,71 @@
                 status.style.color = 'var(--brass-bright)';
                 status.innerText = '';
 
-                setTimeout(() => {
+                try {
+                    const resp = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (resp.ok) {
+                        status.style.color = 'var(--brass-bright)';
+                        status.innerText = "Thank you — we've received your message and will be in touch within one business day.";
+                        form.reset();
+                    } else {
+                        const data = await resp.json().catch(() => null);
+                        throw new Error((data && data.message) ? data.message : 'Submission failed');
+                    }
+                } catch (err) {
+                    console.error('Contact submit error:', err);
+                    status.style.color = '#d98a5f';
+                    status.innerText = 'Could not send message. Please email us directly at rishirajenterprisesindia@gmail.com';
+                } finally {
                     btn.innerText = originalText;
                     btn.disabled = false;
-                    status.innerText = 'Thank you — we\'ve received your message and will be in touch within one business day.';
-                    form.reset();
-                    setTimeout(() => status.innerText = '', 6000);
-                }, 1400);
+                    setTimeout(() => { status.innerText = ''; }, 9000);
+                }
             });
 
-            document.getElementById('year').textContent = new Date().getFullYear();
-
-            initFluidCanvas();
-            initStats();
-        });
+            // Clear an error the moment a field becomes valid again, rather than only on submit.
+            [
+                ['name', () => document.getElementById('name').value.trim().length >= 2, 'err-name'],
+                ['email', () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value), 'err-email'],
+                ['service', () => document.getElementById('service').value.trim().length > 0, 'err-service'],
+                ['message', () => document.getElementById('message').value.trim().length >= 10, 'err-message']
+            ].forEach(([id, check, errId]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.addEventListener('input', () => {
+                    if (check()) {
+                        document.getElementById(errId)?.classList.remove('show');
+                        el.removeAttribute('aria-invalid');
+                    }
+                });
+                el.addEventListener('change', () => {
+                    if (check()) {
+                        document.getElementById(errId)?.classList.remove('show');
+                        el.removeAttribute('aria-invalid');
+                    }
+                });
+            });
+        }
 
         // --- FLUID CANVAS (ambient blueprint lines) ---
         function initFluidCanvas() {
             const canvas = document.getElementById('fluid-canvas');
+            if (!canvas) return;
             const ctx = canvas.getContext('2d');
-            let width, height, reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let width, height;
+            const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (reduced) { canvas.style.display = 'none'; return; }
 
             const rowPoints = [];
             const rows = window.innerWidth < 768 ? 18 : 30;
             const pointsPerRow = window.innerWidth < 768 ? 50 : 90;
-            const mouse = { x: 0, y: 0, active: false };
+            const mouse = { x: 0, y: 0, active: false, timer: null };
+            let rafId = null;
+            let running = true;
 
             function resize() {
                 width = canvas.width = window.innerWidth;
@@ -1099,7 +1711,16 @@
             });
             window.addEventListener('resize', resize);
 
+            // Pause the render loop while the canvas is fully offscreen — no point paying for it.
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver((entries) => {
+                    running = entries[0].isIntersecting;
+                    if (running && !rafId) rafId = requestAnimationFrame(animate);
+                }, { threshold: 0 }).observe(canvas);
+            }
+
             function animate() {
+                if (!running) { rafId = null; return; }
                 ctx.clearRect(0, 0, width, height);
                 ctx.lineWidth = 1;
                 ctx.strokeStyle = 'rgba(184, 144, 90, 0.10)';
@@ -1134,16 +1755,17 @@
                     ctx.lineTo(points[pointsPerRow - 1].x, points[pointsPerRow - 1].y);
                     ctx.stroke();
                 }
-                requestAnimationFrame(animate);
+                rafId = requestAnimationFrame(animate);
             }
             resize();
-            animate();
+            rafId = requestAnimationFrame(animate);
         }
 
         // --- STATS COUNTER ---
         function initStats() {
             const stats = document.querySelectorAll('.stat-number');
             const section = document.getElementById('stats-counter');
+            if (!stats.length || !section) return;
             let started = false;
 
             const observer = new IntersectionObserver((entries) => {
@@ -1170,6 +1792,378 @@
 
             observer.observe(section);
         }
+
+        // --- MASSING / 3D EXPLORER (vanilla Three.js — no addons, so it stays dependency-light) ---
+        function initMassing() {
+            const stage = document.getElementById('massing-stage');
+            const container = document.getElementById('massing-canvas');
+            const loading = document.getElementById('massing-loading');
+            const fallback = document.getElementById('massing-fallback');
+            const label = document.getElementById('massing-current-label');
+            if (!stage || !container) return;
+
+            function supportsWebGL() {
+                try {
+                    const c = document.createElement('canvas');
+                    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+                } catch (e) { return false; }
+            }
+
+            function showFallback() {
+                if (loading) loading.style.display = 'none';
+                if (fallback) fallback.style.display = 'flex';
+                const typeGroup = document.querySelector('.massing-types');
+                if (typeGroup) typeGroup.style.display = 'none';
+                const hud = document.querySelector('.massing-hud');
+                if (hud) hud.style.display = 'none';
+            }
+
+            if (typeof THREE === 'undefined' || !supportsWebGL()) {
+                showFallback();
+                return;
+            }
+
+            try {
+                let width = container.clientWidth || 600;
+                let height = container.clientHeight || 450;
+
+                let radius = 620, theta = Math.PI / 4, phi = Math.PI / 2.6;
+                const minRadius = 300, maxRadius = 1100;
+                const minPhi = 0.35, maxPhi = Math.PI / 2.05;
+                let autoRotate = true, dragging = false, visible = true, rafId = null, idleTimer = null;
+                let lastX = 0, lastY = 0;
+                const lookAtTarget = new THREE.Vector3(0, 60, 0);
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(38, width / height, 1, 4000);
+
+                function updateCameraPosition() {
+                    camera.position.x = radius * Math.sin(phi) * Math.sin(theta);
+                    camera.position.z = radius * Math.sin(phi) * Math.cos(theta);
+                    camera.position.y = radius * Math.cos(phi);
+                    camera.lookAt(lookAtTarget);
+                }
+                updateCameraPosition();
+
+                const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                renderer.setSize(width, height);
+                renderer.domElement.style.display = 'block';
+                renderer.domElement.style.touchAction = 'none';
+                container.appendChild(renderer.domElement);
+
+                scene.add(new THREE.HemisphereLight(0xf3efe6, 0x0e0d0b, 0.95));
+                const sun = new THREE.DirectionalLight(0xffffff, 0.85);
+                sun.position.set(260, 420, 180);
+                scene.add(sun);
+                const fillLight = new THREE.DirectionalLight(0xb8905a, 0.25);
+                fillLight.position.set(-260, 160, -220);
+                scene.add(fillLight);
+
+                scene.add(new THREE.GridHelper(900, 24, 0xb8905a, 0x35311f));
+
+                const solidMaterial = new THREE.MeshStandardMaterial({ color: 0xece6d8, roughness: 0.88, metalness: 0.04 });
+                const edgeMaterial = new THREE.LineBasicMaterial({ color: 0xd3ab79 });
+                const massingGroup = new THREE.Group();
+                scene.add(massingGroup);
+
+                const massingSpecs = {
+                    residential: [
+                        { w: 260, h: 110, d: 200, x: 0, z: 0, baseY: 0 },
+                        { w: 160, h: 90, d: 140, x: 40, z: -20, baseY: 110 },
+                        { w: 90, h: 20, d: 70, x: 40, z: -20, baseY: 200 }
+                    ],
+                    hospitality: [
+                        { w: 420, h: 70, d: 140, x: -40, z: 40, baseY: 0 },
+                        { w: 140, h: 70, d: 260, x: -190, z: -60, baseY: 0 },
+                        { w: 120, h: 220, d: 120, x: 170, z: -40, baseY: 0 }
+                    ],
+                    commercial: [
+                        { w: 280, h: 50, d: 220, x: 0, z: 0, baseY: 0 },
+                        { w: 170, h: 180, d: 150, x: 0, z: 0, baseY: 50 },
+                        { w: 120, h: 110, d: 110, x: 0, z: 0, baseY: 230 }
+                    ]
+                };
+
+                function frameMassing() {
+                    const box = new THREE.Box3().setFromObject(massingGroup);
+                    const size = new THREE.Vector3();
+                    const center = new THREE.Vector3();
+                    box.getSize(size);
+                    box.getCenter(center);
+                    const maxDim = Math.max(size.x, size.y, size.z, 1);
+                    radius = Math.max(minRadius, Math.min(maxRadius, maxDim * 1.85));
+                    lookAtTarget.set(center.x, size.y * 0.42, center.z);
+                    updateCameraPosition();
+                }
+
+                function buildMassing(type) {
+                    const specs = massingSpecs[type] || massingSpecs.residential;
+                    for (let i = massingGroup.children.length - 1; i >= 0; i--) {
+                        const child = massingGroup.children[i];
+                        if (child.geometry) child.geometry.dispose();
+                        massingGroup.remove(child);
+                    }
+                    specs.forEach(s => {
+                        const geo = new THREE.BoxGeometry(s.w, s.h, s.d);
+                        const mesh = new THREE.Mesh(geo, solidMaterial);
+                        mesh.position.set(s.x, s.baseY + s.h / 2, s.z);
+                        massingGroup.add(mesh);
+                        const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMaterial);
+                        edges.position.copy(mesh.position);
+                        massingGroup.add(edges);
+                    });
+                    frameMassing();
+                }
+
+                buildMassing('residential');
+                if (loading) loading.style.display = 'none';
+
+                function resetIdleTimer() {
+                    clearTimeout(idleTimer);
+                    idleTimer = setTimeout(() => { autoRotate = true; }, 3500);
+                }
+
+                function onPointerDown(e) {
+                    dragging = true;
+                    autoRotate = false;
+                    lastX = e.clientX; lastY = e.clientY;
+                }
+                function onPointerMove(e) {
+                    if (!dragging) return;
+                    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+                    lastX = e.clientX; lastY = e.clientY;
+                    theta -= dx * 0.0065;
+                    phi = Math.max(minPhi, Math.min(maxPhi, phi - dy * 0.0065));
+                    updateCameraPosition();
+                }
+                function onPointerUp() {
+                    if (!dragging) return;
+                    dragging = false;
+                    resetIdleTimer();
+                }
+                function onWheel(e) {
+                    e.preventDefault();
+                    radius = Math.max(minRadius, Math.min(maxRadius, radius + e.deltaY * 0.6));
+                    updateCameraPosition();
+                    resetIdleTimer();
+                }
+
+                renderer.domElement.addEventListener('pointerdown', onPointerDown);
+                window.addEventListener('pointermove', onPointerMove);
+                window.addEventListener('pointerup', onPointerUp);
+                window.addEventListener('pointercancel', onPointerUp);
+                renderer.domElement.addEventListener('wheel', onWheel, { passive: false });
+
+                document.querySelectorAll('.massing-type-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.massing-type-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        buildMassing(btn.getAttribute('data-type'));
+                        if (label) label.textContent = btn.textContent;
+                        autoRotate = true;
+                        resetIdleTimer();
+                    });
+                });
+
+                function onResize() {
+                    const w = container.clientWidth, h = container.clientHeight;
+                    if (!w || !h) return;
+                    width = w; height = h;
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(width, height);
+                }
+                window.addEventListener('resize', onResize);
+                if ('ResizeObserver' in window) {
+                    new ResizeObserver(() => onResize()).observe(stage);
+                }
+
+                function animate() {
+                    if (!visible) { rafId = null; return; }
+                    if (autoRotate && !dragging) {
+                        theta += 0.0018;
+                        updateCameraPosition();
+                    }
+                    renderer.render(scene, camera);
+                    rafId = requestAnimationFrame(animate);
+                }
+
+                if ('IntersectionObserver' in window) {
+                    new IntersectionObserver((entries) => {
+                        visible = entries[0].isIntersecting;
+                        if (visible && !rafId) rafId = requestAnimationFrame(animate);
+                    }, { threshold: 0 }).observe(stage);
+                }
+                rafId = requestAnimationFrame(animate);
+
+            } catch (err) {
+                console.error('Massing explorer failed to initialise:', err);
+                showFallback();
+            }
+        }
+
+        // --- INTERACTIVE BLUEPRINT ---
+        function initBlueprint() {
+            const svg = document.getElementById('blueprint-svg');
+            const stage = svg ? svg.closest('.blueprint-stage') : null;
+            const tooltip = document.getElementById('bp-tooltip');
+            const tooltipRoom = document.getElementById('bp-tooltip-room');
+            const tooltipArea = document.getElementById('bp-tooltip-area');
+            if (!svg || !stage || !tooltip) return;
+
+            // Structural grid dots are generated rather than hand-authored one by one.
+            const gridLayer = document.getElementById('bp-grid-dots');
+            if (gridLayer) {
+                const spacing = 60;
+                let dots = '';
+                for (let gx = 80; gx <= 820; gx += spacing) {
+                    for (let gy = 60; gy <= 540; gy += spacing) {
+                        dots += '<circle class="bp-grid-dot" cx="' + gx + '" cy="' + gy + '" r="2.4"></circle>';
+                    }
+                }
+                gridLayer.innerHTML = dots;
+            }
+
+            function showTooltip(room) {
+                if (!tooltipRoom || !tooltipArea) return;
+                tooltipRoom.textContent = room.getAttribute('data-room') || '';
+                tooltipArea.textContent = room.getAttribute('data-area') || '';
+                const stageRect = stage.getBoundingClientRect();
+                const roomRect = room.getBoundingClientRect();
+                const x = roomRect.left + roomRect.width / 2 - stageRect.left;
+                const y = roomRect.top - stageRect.top;
+                tooltip.style.left = x + 'px';
+                tooltip.style.top = Math.max(y, 30) + 'px';
+                tooltip.classList.add('show');
+            }
+            function hideTooltip() { tooltip.classList.remove('show'); }
+
+            document.querySelectorAll('.bp-room').forEach(room => {
+                room.addEventListener('mouseenter', () => showTooltip(room));
+                room.addEventListener('mouseleave', hideTooltip);
+                room.addEventListener('focus', () => showTooltip(room));
+                room.addEventListener('blur', hideTooltip);
+            });
+
+            document.querySelectorAll('.blueprint-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.blueprint-toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    svg.classList.toggle('mode-structural', btn.getAttribute('data-mode') === 'structural');
+                });
+            });
+        }
+
+        // --- EASTER EGGS ---
+        function initEasterEggs() {
+            const overlay = document.getElementById('secret-grid-overlay');
+            const burst = document.getElementById('compass-burst');
+
+            function isTypingContext() {
+                const el = document.activeElement;
+                if (!el) return false;
+                const tag = el.tagName;
+                return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || el.isContentEditable;
+            }
+
+            function playCompassBurst() {
+                if (!burst) return;
+                burst.classList.add('active');
+                setTimeout(() => burst.classList.remove('active'), 1600);
+            }
+
+            function toggleBlueprintMode(withFanfare) {
+                if (!overlay) return;
+                const active = overlay.classList.toggle('active');
+                if (active) {
+                    showToast(withFanfare ? "You found it — blueprint mode unlocked. That's the kind of detail we put into every drawing." : 'Blueprint mode: on');
+                    if (withFanfare) playCompassBurst();
+                } else {
+                    showToast('Blueprint mode: off');
+                }
+            }
+
+            const sequence = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+            let buffer = [];
+            document.addEventListener('keydown', (e) => {
+                if (isTypingContext()) return;
+                const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+                buffer.push(key);
+                buffer = buffer.slice(-sequence.length);
+                if (buffer.length === sequence.length && buffer.every((k, i) => k === sequence[i])) {
+                    toggleBlueprintMode(true);
+                    buffer = [];
+                }
+            });
+
+            const logo = document.getElementById('logo-trigger');
+            if (logo) {
+                let clickTimes = [];
+                logo.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const now = Date.now();
+                    clickTimes.push(now);
+                    clickTimes = clickTimes.filter(t => now - t < 900);
+                    if (clickTimes.length >= 3) {
+                        toggleBlueprintMode(false);
+                        clickTimes = [];
+                    }
+                });
+            }
+
+            console.log('%cRishiraj Enterprises', 'font-size:16px; font-weight:bold; color:#d3ab79;');
+            console.log('%cLooking under the hood? We draw our blueprints with the same care. Try the Konami code, or triple-click the logo.', 'color:#9a9384;');
+        }
+
+        // --- WIRING (each feature isolated so one failure can't take down the rest) ---
+        function safeRun(fn, label) {
+            try { fn(); } catch (err) { console.error('[Rishiraj site] ' + label + ' failed:', err); }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            safeRun(buildMarquee, 'buildMarquee');
+            safeRun(buildTestimonials, 'buildTestimonials');
+            safeRun(initFAQ, 'initFAQ');
+            safeRun(initHeaderScroll, 'initHeaderScroll');
+            safeRun(initReveal, 'initReveal');
+            safeRun(initContactForm, 'initContactForm');
+            safeRun(initFluidCanvas, 'initFluidCanvas');
+            safeRun(initStats, 'initStats');
+            safeRun(initMassing, 'initMassing');
+            safeRun(initBlueprint, 'initBlueprint');
+            safeRun(initEasterEggs, 'initEasterEggs');
+
+            // Video modal
+            document.getElementById('watch-story-btn')?.addEventListener('click', () => toggleVideo(true));
+            document.getElementById('video-close')?.addEventListener('click', () => toggleVideo(false));
+            document.getElementById('video-modal')?.addEventListener('click', (e) => {
+                if (e.target.id === 'video-modal') toggleVideo(false);
+            });
+
+            // Hero scroll cue
+            document.getElementById('scroll-cue')?.addEventListener('click', () => {
+                window.scrollTo({ top: window.innerHeight * 0.92, behavior: 'smooth' });
+            });
+
+            // Mobile drawer
+            const toggleBtn = document.getElementById('mobile-toggle');
+            const drawer = document.getElementById('drawer');
+            toggleBtn?.addEventListener('click', () => toggleDrawer(!drawer.classList.contains('open')));
+            document.getElementById('drawer-close')?.addEventListener('click', () => toggleDrawer(false));
+            drawer?.querySelectorAll('a').forEach(l => l.addEventListener('click', () => toggleDrawer(false)));
+            drawer?.addEventListener('click', (e) => { if (e.target === drawer) toggleDrawer(false); });
+
+            // Escape closes whichever overlay is open
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                if (document.getElementById('video-modal')?.classList.contains('active')) toggleVideo(false);
+                if (document.getElementById('drawer')?.classList.contains('open')) toggleDrawer(false);
+            });
+
+            const yearEl = document.getElementById('year');
+            if (yearEl) yearEl.textContent = new Date().getFullYear();
+        });
     </script>
 </body>
 </html>
