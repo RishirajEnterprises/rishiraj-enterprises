@@ -13,6 +13,15 @@
     <meta name="twitter:card" content="summary" />
 
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%230e0d0b' stroke='%23ff6a06' stroke-width='3'/%3E%3Ctext x='32' y='41' font-family='Georgia,serif' font-size='21' fill='%23ff8a3d' text-anchor='middle'%3ERE%3C/text%3E%3C/svg%3E" />
+    <!-- The inline icon above works immediately with zero setup. For the favicon to reliably show
+         up in Google Search results too, also upload the accompanying favicon.ico / favicon-*.png
+         files (provided alongside this HTML file) to your site's root — Google's crawler is more
+         consistent with real hosted icon files than with data-URI icons. These links point to the
+         root; they simply won't resolve until those files are actually placed there. -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon-180.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -238,6 +247,43 @@
            5. TRUSTED-BY MARQUEE
            ========================================= */
         .trusted-section { padding: 56px 0; background: var(--surface); border-bottom: 1px solid var(--hairline); }
+
+        /* =========================================
+           STATEMENT RIBBON — a tilted, full-bleed band of scrolling
+           type in brass. Deliberately breaks the rectilinear grid.
+           ========================================= */
+        .statement-ribbon {
+            background: var(--brass); padding: 20px 0; overflow: hidden;
+            transform: rotate(-1.6deg) scale(1.04); position: relative; z-index: 6;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.45); border-top: 1px solid rgba(14,13,11,0.15); border-bottom: 1px solid rgba(14,13,11,0.15);
+        }
+        .statement-track { display: flex; gap: 44px; width: max-content; animation: ribbonScroll 30s linear infinite; }
+        .statement-ribbon:hover .statement-track { animation-play-state: paused; }
+        .statement-track span {
+            font-family: var(--font-display); font-style: italic; font-weight: 500;
+            font-size: clamp(1.3rem, 2.7vw, 2rem); color: var(--ink); white-space: nowrap;
+            display: flex; align-items: center; gap: 44px;
+        }
+        .statement-track span::after { content: '◆'; font-size: 0.8rem; opacity: 0.45; font-style: normal; }
+        @keyframes ribbonScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* =========================================
+           MANIFESTO — one big editorial statement, huge type, lots of air.
+           ========================================= */
+        .manifesto-section { background: var(--ink); padding: clamp(110px, 15vw, 200px) 0 clamp(90px, 12vw, 160px); text-align: center; position: relative; overflow: hidden; }
+        .manifesto-watermark {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: var(--font-mono); font-size: clamp(8rem, 28vw, 22rem); font-weight: 700;
+            color: transparent; -webkit-text-stroke: 1px var(--hairline-strong); line-height: 1; white-space: nowrap;
+            pointer-events: none; user-select: none; z-index: 0;
+        }
+        .manifesto-text {
+            font-family: var(--font-display); font-size: clamp(1.9rem, 5vw, 4.2rem); line-height: 1.28;
+            max-width: 1150px; margin: 0 auto; color: var(--text-body); font-weight: 400; position: relative; z-index: 1;
+        }
+        .manifesto-text em { font-style: italic; color: var(--brass-bright); }
+        .manifesto-text strong { color: var(--ivory); font-weight: 500; }
+        .manifesto-byline { margin-top: 34px; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); position: relative; z-index: 1; }
         .trusted-title {
             text-align: center; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.24em;
             color: var(--text-muted); margin-bottom: 34px; font-weight: 600; font-family: var(--font-mono);
@@ -276,11 +322,16 @@
         /* =========================================
            6. STATS
            ========================================= */
-        .stats-section { background: var(--ink); padding: 80px 0; border-bottom: 1px solid var(--hairline); }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 40px; text-align: center; }
-        .stat-item { display: flex; flex-direction: column; align-items: center; }
-        .stat-number { font-size: clamp(2.2rem, 5vw, 3.2rem); color: var(--brass-bright); margin-bottom: 8px; font-family: var(--font-display); font-variant-numeric: tabular-nums; }
-        .stat-label { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); }
+        .stats-section {
+            background-color: var(--ink); padding: clamp(90px, 11vw, 140px) 0; border-bottom: 1px solid var(--hairline);
+            position: relative; overflow: hidden;
+            background-image: radial-gradient(circle at 15% 20%, rgba(184,144,90,0.14), transparent 45%), radial-gradient(circle at 85% 80%, rgba(184,144,90,0.1), transparent 45%);
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; z-index: 1; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; padding: 0 24px; border-left: 1px solid var(--hairline); }
+        .stat-item:first-child { border-left: none; }
+        .stat-number { font-size: clamp(3.2rem, 7vw, 5.6rem); color: var(--brass-bright); margin-bottom: 10px; font-family: var(--font-display); font-variant-numeric: tabular-nums; line-height: 1; text-shadow: 0 0 60px var(--brass-glow); }
+        .stat-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); font-family: var(--font-mono); }
 
         /* =========================================
            7. ABOUT
@@ -479,9 +530,16 @@
         /* =========================================
            13. PROJECTS
            ========================================= */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px; }
+        /* Asymmetric "bento" grid: one featured card, one tall card, three even, one wide banner */
+        .projects-grid { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 230px; gap: 24px; }
+        .project-card:nth-child(1) { grid-column: span 4; grid-row: span 2; }
+        .project-card:nth-child(2) { grid-column: span 2; grid-row: span 2; }
+        .project-card:nth-child(3) { grid-column: span 2; grid-row: span 1; }
+        .project-card:nth-child(4) { grid-column: span 2; grid-row: span 1; }
+        .project-card:nth-child(5) { grid-column: span 2; grid-row: span 1; }
+        .project-card:nth-child(6) { grid-column: span 6; grid-row: span 1; }
 
-        .project-card { position: relative; height: 440px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--hairline); background: var(--surface); }
+        .project-card { position: relative; height: 100%; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--hairline); background: var(--surface); }
         .project-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-smooth); }
         .project-overlay {
             position: absolute; inset: 0;
@@ -699,6 +757,10 @@
             .blueprint-layout { grid-template-columns: 1fr; gap: 32px; }
             .blueprint-stage { order: -1; }
             .footer-grid { grid-template-columns: 1fr 1fr; }
+            .projects-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 280px; }
+            .project-card:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .project-card:nth-child(2) { grid-column: span 2; grid-row: span 1; }
+            .project-card:nth-child(6) { grid-column: span 2; }
         }
 
         @media (max-width: 768px) {
@@ -708,10 +770,11 @@
             #header { top: 12px; padding: 0 14px; }
             .nav-pill { height: 64px; padding: 0 8px 0 14px; }
             #header.scrolled .nav-pill { height: 56px; }
-            .logo-text .name { font-size: 1rem; }
+            .logo-img { height: 24px; }
             .btn-group { flex-direction: column; align-items: stretch; }
             .btn-group a, .btn-group button { width: 100%; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
+            .stat-item { border-left: none !important; }
             .process-grid { grid-template-columns: 1fr; }
             .process-step { border-left: none !important; }
             .tech-row { grid-template-columns: 1fr; row-gap: 8px; }
@@ -723,6 +786,11 @@
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
             .testi-card { width: 300px; }
             .hero-section { padding-top: 104px; }
+            .projects-grid { grid-template-columns: 1fr; grid-auto-rows: 260px; gap: 20px; }
+            .project-card:nth-child(n) { grid-column: span 1 !important; grid-row: span 1 !important; }
+            .statement-track span { font-size: 1.1rem; gap: 28px; }
+            .statement-track { gap: 28px; }
+            .manifesto-watermark { font-size: clamp(5rem, 30vw, 10rem); }
         }
 
         @media (max-width: 420px) {
@@ -813,6 +881,11 @@
         <button class="hero-scroll-cue" id="scroll-cue" aria-label="Scroll to next section"><span>Scroll</span><span class="line"></span></button>
     </section>
 
+    <!-- STATEMENT RIBBON -->
+    <div class="statement-ribbon" id="statement-ribbon" aria-hidden="true">
+        <div class="statement-track" id="statement-track"></div>
+    </div>
+
     <!-- TRUSTED BY -->
     <section class="trusted-section">
         <div class="container">
@@ -832,6 +905,17 @@
                 <div class="stat-item"><div class="stat-number" data-target="30">0</div><div class="stat-label">Years in Practice</div></div>
                 <div class="stat-item"><div class="stat-number" data-target="45">0</div><div class="stat-label">Design Awards</div></div>
             </div>
+        </div>
+    </section>
+
+    <!-- MANIFESTO -->
+    <section class="manifesto-section">
+        <div class="manifesto-watermark mono" aria-hidden="true">GUWAHATI</div>
+        <div class="container">
+            <p class="manifesto-text reveal">Anyone can render something <em>beautiful</em>.<br>
+            We build what's still standing after the <strong>monsoon</strong>, the <strong>tremor</strong>,<br>
+            and the years no one's watching anymore.</p>
+            <p class="manifesto-byline reveal reveal-1">— The standard every drawing is held to before it leaves our office</p>
         </div>
     </section>
 
@@ -1435,6 +1519,57 @@
                         <img src="${c.logo}" alt="${c.name} logo" loading="lazy">
                     </span>
                 </div>`).join('');
+        }
+
+        // --- STATEMENT RIBBON ---
+        function buildStatementRibbon() {
+            const track = document.getElementById('statement-track');
+            if (!track) return;
+            const words = ['Architecture', 'Interior Design', 'Turnkey Construction', 'Seismic-Rated Structures', '30+ Years in Practice', 'Guwahati · Pan India'];
+            const set = [...words, ...words];
+            track.innerHTML = set.map(w => `<span>${w}</span>`).join('');
+        }
+
+        // --- PARALLAX (hero background + about photo drift gently on scroll) ---
+        function initParallax() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const hero = document.querySelector('.hero-section');
+            const aboutImg = document.querySelector('.about-media img');
+            if (!hero && !aboutImg) return;
+            let ticking = false;
+            function update() {
+                const y = window.scrollY;
+                if (hero && y < window.innerHeight * 1.2) {
+                    hero.style.backgroundPositionY = (y * 0.35) + 'px, center, center, center, center';
+                }
+                if (aboutImg) {
+                    const r = aboutImg.getBoundingClientRect();
+                    if (r.top < window.innerHeight && r.bottom > 0) {
+                        const progress = (window.innerHeight - r.top) / (window.innerHeight + r.height);
+                        aboutImg.style.transform = 'translateY(' + ((progress - 0.5) * 26) + 'px) scale(1.08)';
+                    }
+                }
+                ticking = false;
+            }
+            window.addEventListener('scroll', () => {
+                if (!ticking) { requestAnimationFrame(update); ticking = true; }
+            });
+            update();
+        }
+
+        // --- MAGNETIC BUTTONS (primary CTAs nudge slightly toward the cursor) ---
+        function initMagneticButtons() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (window.matchMedia('(pointer: coarse)').matches) return; // touch devices skip this
+            document.querySelectorAll('.btn-primary, .massing-type-btn, .blueprint-toggle-btn').forEach(btn => {
+                btn.addEventListener('mousemove', (e) => {
+                    const r = btn.getBoundingClientRect();
+                    const x = e.clientX - (r.left + r.width / 2);
+                    const y = e.clientY - (r.top + r.height / 2);
+                    btn.style.transform = `translate(${x * 0.18}px, ${y * 0.28}px)`;
+                });
+                btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+            });
         }
 
         const testimonials = [
@@ -2184,6 +2319,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             safeRun(buildMarquee, 'buildMarquee');
+            safeRun(buildStatementRibbon, 'buildStatementRibbon');
             safeRun(buildTestimonials, 'buildTestimonials');
             safeRun(initFAQ, 'initFAQ');
             safeRun(initHeaderScroll, 'initHeaderScroll');
@@ -2194,6 +2330,8 @@
             safeRun(initMassing, 'initMassing');
             safeRun(initBlueprint, 'initBlueprint');
             safeRun(initEasterEggs, 'initEasterEggs');
+            safeRun(initParallax, 'initParallax');
+            safeRun(initMagneticButtons, 'initMagneticButtons');
 
             // Video modal
             document.getElementById('watch-story-btn')?.addEventListener('click', () => toggleVideo(true));
