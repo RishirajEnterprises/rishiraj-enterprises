@@ -73,7 +73,7 @@
            2. RESET & BASE
            ========================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
         body {
             background-color: var(--ink);
             color: var(--text-body);
@@ -328,9 +328,9 @@
             background-image: radial-gradient(circle at 15% 20%, rgba(184,144,90,0.14), transparent 45%), radial-gradient(circle at 85% 80%, rgba(184,144,90,0.1), transparent 45%);
         }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; z-index: 1; }
-        .stat-item { display: flex; flex-direction: column; align-items: center; padding: 0 24px; border-left: 1px solid var(--hairline); }
+        .stat-item { display: flex; flex-direction: column; align-items: center; padding: 0 24px; border-left: 1px solid var(--hairline); min-width: 0; }
         .stat-item:first-child { border-left: none; }
-        .stat-number { font-size: clamp(3.2rem, 7vw, 5.6rem); color: var(--brass-bright); margin-bottom: 10px; font-family: var(--font-display); font-variant-numeric: tabular-nums; line-height: 1; text-shadow: 0 0 60px var(--brass-glow); }
+        .stat-number { font-size: clamp(2.2rem, 6vw, 5.6rem); color: var(--brass-bright); margin-bottom: 10px; font-family: var(--font-display); font-variant-numeric: tabular-nums; line-height: 1; text-shadow: 0 0 60px var(--brass-glow); max-width: 100%; }
         .stat-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); font-family: var(--font-mono); }
 
         /* =========================================
@@ -437,6 +437,17 @@
         }
         .massing-type-btn:hover { border-color: var(--brass); color: var(--ivory); }
         .massing-type-btn.active { background: var(--brass); border-color: var(--brass); color: var(--ink); }
+        .massing-explode-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: transparent; border: 1px dashed var(--hairline-strong); color: var(--text-muted);
+            font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em;
+            padding: 11px 18px; border-radius: 100px; cursor: pointer; transition: all 0.25s var(--ease-smooth);
+            margin-top: 14px;
+        }
+        .massing-explode-btn:hover { border-color: var(--brass-bright); color: var(--ivory); }
+        .massing-explode-btn.active { border-style: solid; border-color: var(--brass-bright); color: var(--brass-bright); background: rgba(184,144,90,0.1); }
+        .massing-explode-btn svg { width: 14px; height: 14px; transition: transform 0.3s ease; }
+        .massing-explode-btn.active svg { transform: rotate(180deg); }
 
         .massing-stage {
             position: relative; aspect-ratio: 4/3; border-radius: var(--radius-lg); overflow: hidden;
@@ -541,6 +552,14 @@
 
         .project-card { position: relative; height: 100%; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--hairline); background: var(--surface); }
         .project-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-smooth); }
+        .project-card--fallback {
+            background-color: var(--surface-2);
+            background-image:
+                linear-gradient(160deg, var(--surface-2), var(--ink)),
+                radial-gradient(circle at 30% 20%, rgba(184,144,90,0.22), transparent 55%),
+                repeating-linear-gradient(0deg, rgba(243,239,230,0.045) 0 1px, transparent 1px 34px),
+                repeating-linear-gradient(90deg, rgba(243,239,230,0.045) 0 1px, transparent 1px 34px);
+        }
         .project-overlay {
             position: absolute; inset: 0;
             background: linear-gradient(to top, rgba(10,9,7,0.94) 15%, rgba(10,9,7,0.1) 65%);
@@ -709,6 +728,66 @@
         #drawer-close { position: absolute; top: 26px; right: 24px; background: none; border: none; color: var(--ivory); font-size: 1.8rem; cursor: pointer; width: 44px; height: 44px; }
 
         /* =========================================
+           19b. PROJECT SCOPE ESTIMATOR
+           ========================================= */
+        .estimator-section { background: var(--surface); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+        .estimator-panel { background: var(--ink); border: 1px solid var(--hairline-strong); border-radius: var(--radius-lg); padding: clamp(28px, 4vw, 48px); }
+        .estimator-group { margin-bottom: 28px; }
+        .estimator-group:last-of-type { margin-bottom: 0; }
+        .estimator-label { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--brass-bright); margin-bottom: 14px; display: block; }
+        .estimator-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .estimator-btn {
+            background: var(--surface); border: 1px solid var(--hairline-strong); color: var(--text-body);
+            font-size: 0.85rem; font-weight: 500; padding: 12px 20px; border-radius: 100px;
+            cursor: pointer; transition: all 0.25s var(--ease-smooth); font-family: var(--font-body);
+        }
+        .estimator-btn:hover { border-color: var(--brass); color: var(--ivory); }
+        .estimator-btn.active { background: var(--brass); border-color: var(--brass); color: var(--ink); font-weight: 600; }
+        .estimator-result {
+            margin-top: 36px; padding-top: 32px; border-top: 1px solid var(--hairline);
+            display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;
+        }
+        .estimator-result-block h4 { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 10px; font-weight: 600; }
+        .estimator-timeline { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--brass-bright); line-height: 1.15; }
+        .estimator-team { font-size: 0.92rem; color: var(--text-body); }
+        .estimator-includes { list-style: none; margin-top: 4px; }
+        .estimator-includes li { font-size: 0.88rem; color: var(--text-body); padding-left: 18px; position: relative; margin-bottom: 6px; }
+        .estimator-includes li::before { content: '—'; position: absolute; left: 0; color: var(--brass); }
+        .estimator-cta-row { margin-top: 30px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+        .estimator-note { font-size: 0.78rem; color: var(--text-muted); grid-column: 1 / -1; margin-top: 4px; }
+
+        /* =========================================
+           19c. BEFORE / AFTER SLIDER
+           ========================================= */
+        .reveal-section { background: var(--ink); border-bottom: 1px solid var(--hairline); }
+        .reveal-slider {
+            position: relative; aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden;
+            border: 1px solid var(--hairline-strong); user-select: none; touch-action: pan-y; cursor: ew-resize;
+            max-width: 980px; margin: 0 auto; box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+        }
+        .reveal-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .reveal-slider .reveal-before { clip-path: inset(0 50% 0 0); }
+        .reveal-handle {
+            position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: var(--brass-bright);
+            transform: translateX(-50%); box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .reveal-handle-grip {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 46px; height: 46px; border-radius: 50%; background: var(--brass); border: 3px solid var(--ink);
+            display: flex; align-items: center; justify-content: center; color: var(--ink); box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        .reveal-tag { position: absolute; top: 18px; font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(14,13,11,0.65); color: var(--ivory); padding: 7px 14px; border-radius: 100px; pointer-events: none; }
+        .reveal-tag--before { left: 18px; }
+        .reveal-tag--after { right: 18px; }
+        .reveal-caption { text-align: center; margin-top: 20px; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* =========================================
+           19d. CONFETTI (form success)
+           ========================================= */
+        #confetti-layer { position: fixed; inset: 0; z-index: 3500; pointer-events: none; overflow: hidden; }
+        .confetti-piece { position: absolute; top: -20px; border-radius: 2px; opacity: 0.95; will-change: transform; }
+
+        /* =========================================
            20. EASTER EGGS — toast + blueprint overlay
            ========================================= */
         .toast {
@@ -773,8 +852,9 @@
             .logo-img { height: 24px; }
             .btn-group { flex-direction: column; align-items: stretch; }
             .btn-group a, .btn-group button { width: 100%; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
-            .stat-item { border-left: none !important; }
+            .stats-grid { grid-template-columns: 1fr; row-gap: 40px; }
+            .stat-item { border-left: none !important; padding: 0 12px; }
+            .stat-number { font-size: clamp(2.6rem, 13vw, 3.6rem); }
             .process-grid { grid-template-columns: 1fr; }
             .process-step { border-left: none !important; }
             .tech-row { grid-template-columns: 1fr; row-gap: 8px; }
@@ -791,6 +871,8 @@
             .statement-track span { font-size: 1.1rem; gap: 28px; }
             .statement-track { gap: 28px; }
             .manifesto-watermark { font-size: clamp(5rem, 30vw, 10rem); }
+            .estimator-result { grid-template-columns: 1fr; gap: 20px; }
+            .reveal-slider { aspect-ratio: 4/5; }
         }
 
         @media (max-width: 420px) {
@@ -1103,6 +1185,10 @@
                         <button class="massing-type-btn" data-type="hospitality">Hospitality</button>
                         <button class="massing-type-btn" data-type="commercial">Commercial</button>
                     </div>
+                    <button class="massing-explode-btn" id="massing-explode-btn" type="button" aria-pressed="false">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v6M12 15v6M3 12h6M15 12h6M6.3 6.3l3 3M17.7 6.3l-3 3M6.3 17.7l3-3M17.7 17.7l-3-3"/></svg>
+                        Exploded view
+                    </button>
                 </div>
                 <div>
                     <div class="massing-stage reveal reveal-2" id="massing-stage">
@@ -1264,7 +1350,7 @@
             </div>
             <div class="projects-grid">
                 <div class="project-card reveal">
-                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Apex Corporate HQ interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
+                    <img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Apex Corporate HQ interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').classList.add('project-card--fallback');">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Commercial</span><span class="tag">2024</span></div>
                         <h3>Apex Corporate HQ</h3>
@@ -1272,7 +1358,7 @@
                     </div>
                 </div>
                 <div class="project-card reveal reveal-1">
-                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=900" class="project-img" alt="The Onyx Villa exterior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=900" class="project-img" alt="The Onyx Villa exterior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').classList.add('project-card--fallback');">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Residential</span><span class="tag">Luxury</span></div>
                         <h3>The Onyx Villa</h3>
@@ -1280,7 +1366,7 @@
                     </div>
                 </div>
                 <div class="project-card reveal reveal-2">
-                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Hotel lobby interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Hotel lobby interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').classList.add('project-card--fallback');">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Hospitality</span><span class="tag">Interiors</span></div>
                         <h3>Riverside Hotel Lobby</h3>
@@ -1288,7 +1374,7 @@
                     </div>
                 </div>
                 <div class="project-card reveal reveal-3">
-                    <img src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Airport terminal interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
+                    <img src="https://images.unsplash.com/photo-1541185933-ef5d8ed016c2?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Airport terminal interior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').classList.add('project-card--fallback');">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Institutional</span><span class="tag">Public Infrastructure</span></div>
                         <h3>Terminal Interior Fit-Out</h3>
@@ -1296,7 +1382,7 @@
                     </div>
                 </div>
                 <div class="project-card reveal reveal-4">
-                    <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Green Leaf Campus exterior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
+                    <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Green Leaf Campus exterior" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').classList.add('project-card--fallback');">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Sustainability</span><span class="tag">Corporate</span></div>
                         <h3>Green Leaf Campus</h3>
@@ -1304,7 +1390,7 @@
                     </div>
                 </div>
                 <div class="project-card reveal reveal-5">
-                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Zenith Spa and Resort" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').style.background='linear-gradient(160deg, var(--surface-2), var(--ink))';">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=900" class="project-img" alt="Zenith Spa and Resort" loading="lazy" onerror="this.style.display='none'; this.closest('.project-card').classList.add('project-card--fallback');">
                     <div class="project-overlay">
                         <div class="project-tags"><span class="tag">Hospitality</span><span class="tag">Wellness</span></div>
                         <h3>Zenith Spa &amp; Resort</h3>
@@ -2090,6 +2176,8 @@
                         if (child.geometry) child.geometry.dispose();
                         massingGroup.remove(child);
                     }
+                    isExploded = false;
+                    if (explodeBtn) { explodeBtn.classList.remove('active'); explodeBtn.setAttribute('aria-pressed', 'false'); }
                     specs.forEach(s => {
                         let geo, posY;
                         if (s.kind === 'roof') {
@@ -2108,8 +2196,62 @@
                         edges.position.copy(mesh.position);
                         edges.rotation.copy(mesh.rotation);
                         massingGroup.add(edges);
+
+                        // Pre-compute the "exploded axonometric" resting position for this piece:
+                        // higher elements in the stack float further up, and pieces already offset
+                        // from the plan's centre drift further outward in that same direction.
+                        const planDir = new THREE.Vector3(s.x, 0, s.z);
+                        if (planDir.lengthSq() > 1) planDir.normalize(); else planDir.set(0, 0, 0);
+                        const explodedPos = new THREE.Vector3(
+                            mesh.position.x + planDir.x * 65,
+                            mesh.position.y + s.baseY * 0.55 + 34,
+                            mesh.position.z + planDir.z * 65
+                        );
+                        [mesh, edges].forEach(obj => {
+                            obj.userData.assembled = obj.position.clone();
+                            obj.userData.exploded = explodedPos.clone();
+                        });
                     });
                     frameMassing();
+                }
+
+                let isExploded = false;
+                const explodeBtn = document.getElementById('massing-explode-btn');
+
+                function animateTo(obj, targetPos, duration) {
+                    const start = obj.position.clone();
+                    const startTime = performance.now();
+                    function step(now) {
+                        const t = Math.min(1, (now - startTime) / duration);
+                        const eased = 1 - Math.pow(1 - t, 3);
+                        obj.position.set(
+                            start.x + (targetPos.x - start.x) * eased,
+                            start.y + (targetPos.y - start.y) * eased,
+                            start.z + (targetPos.z - start.z) * eased
+                        );
+                        if (t < 1) requestAnimationFrame(step);
+                    }
+                    requestAnimationFrame(step);
+                }
+
+                function setExploded(state) {
+                    isExploded = state;
+                    massingGroup.children.forEach(child => {
+                        const target = state ? child.userData.exploded : child.userData.assembled;
+                        if (target) animateTo(child, target, 750);
+                    });
+                    if (explodeBtn) {
+                        explodeBtn.classList.toggle('active', state);
+                        explodeBtn.setAttribute('aria-pressed', String(state));
+                    }
+                }
+
+                if (explodeBtn) {
+                    explodeBtn.addEventListener('click', () => {
+                        setExploded(!isExploded);
+                        autoRotate = true;
+                        resetIdleTimer();
+                    });
                 }
 
                 buildMassing('residential');
