@@ -764,6 +764,11 @@
             position: relative; aspect-ratio: 16/9; border-radius: var(--radius-lg); overflow: hidden;
             border: 1px solid var(--hairline-strong); user-select: none; touch-action: pan-y; cursor: ew-resize;
             max-width: 980px; margin: 0 auto; box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+            background-color: var(--surface);
+            background-image:
+                radial-gradient(circle at 30% 30%, rgba(184,144,90,0.2), transparent 55%),
+                repeating-linear-gradient(0deg, rgba(243,239,230,0.04) 0 1px, transparent 1px 36px),
+                repeating-linear-gradient(90deg, rgba(243,239,230,0.04) 0 1px, transparent 1px 36px);
         }
         .reveal-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
         .reveal-slider .reveal-before { clip-path: inset(0 50% 0 0); }
@@ -887,6 +892,7 @@
     <canvas id="fluid-canvas"></canvas>
     <div id="secret-grid-overlay" aria-hidden="true"><span class="tag mono">Blueprint mode — on</span></div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div id="confetti-layer" aria-hidden="true"></div>
 
     <!-- HEADER -->
     <header id="header">
@@ -1451,6 +1457,85 @@
         </div>
     </section>
 
+    <!-- BEFORE / AFTER -->
+    <section class="reveal-section">
+        <div class="container">
+            <div class="section-header center reveal">
+                <div class="eyebrow">Interactive</div>
+                <h2>Drag to see the difference</h2>
+                <p>A glimpse of the kind of transformation a renovation scope covers.</p>
+            </div>
+            <div class="reveal-slider reveal reveal-1" id="reveal-slider" tabindex="0" role="slider" aria-label="Drag to compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?q=80&w=1400&auto=format&fit=crop" alt="Dated interior before renovation" loading="lazy" onerror="this.remove();">
+                <img class="reveal-before" id="reveal-before-img" src="https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?q=80&w=1400&auto=format&fit=crop" alt="Renovated interior after" loading="lazy" onerror="this.remove();">
+                <span class="reveal-tag reveal-tag--before">Before</span>
+                <span class="reveal-tag reveal-tag--after">After</span>
+                <div class="reveal-handle" id="reveal-handle">
+                    <div class="reveal-handle-grip">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg>
+                    </div>
+                </div>
+            </div>
+            <p class="reveal-caption">Illustrative — drag the handle, or use arrow keys once focused.</p>
+        </div>
+    </section>
+
+    <!-- PROJECT SCOPE ESTIMATOR -->
+    <section class="estimator-section" id="estimator">
+        <div class="container">
+            <div class="section-header reveal">
+                <div class="eyebrow">Plan ahead</div>
+                <h2>Get a rough shape of your project</h2>
+                <p>Answer three questions for a realistic timeline and scope — no email required. For actual costing, we'll need a proper site visit.</p>
+            </div>
+            <div class="estimator-panel reveal reveal-1">
+                <div class="estimator-group">
+                    <label class="estimator-label">01 — Project type</label>
+                    <div class="estimator-options" role="group" aria-label="Project type" id="est-type">
+                        <button class="estimator-btn active" data-value="residential">Residential</button>
+                        <button class="estimator-btn" data-value="hospitality">Hospitality</button>
+                        <button class="estimator-btn" data-value="commercial">Commercial</button>
+                        <button class="estimator-btn" data-value="renovation">Renovation</button>
+                    </div>
+                </div>
+                <div class="estimator-group">
+                    <label class="estimator-label">02 — Scope of work</label>
+                    <div class="estimator-options" role="group" aria-label="Scope of work" id="est-scope">
+                        <button class="estimator-btn active" data-value="interiors">Interior design only</button>
+                        <button class="estimator-btn" data-value="architecture">Architecture + interiors</button>
+                        <button class="estimator-btn" data-value="turnkey">Full turnkey construction</button>
+                    </div>
+                </div>
+                <div class="estimator-group">
+                    <label class="estimator-label">03 — Approximate size</label>
+                    <div class="estimator-options" role="group" aria-label="Approximate size" id="est-size">
+                        <button class="estimator-btn active" data-value="compact">Compact (under 2,000 sq ft)</button>
+                        <button class="estimator-btn" data-value="mid">Mid-size (2,000–10,000 sq ft)</button>
+                        <button class="estimator-btn" data-value="large">Large (10,000+ sq ft)</button>
+                    </div>
+                </div>
+                <div class="estimator-result">
+                    <div class="estimator-result-block">
+                        <h4>Typical timeline</h4>
+                        <div class="estimator-timeline" id="est-timeline">6–10 weeks</div>
+                    </div>
+                    <div class="estimator-result-block">
+                        <h4>Usually involves</h4>
+                        <div class="estimator-team" id="est-team">Interior designer + site coordinator</div>
+                    </div>
+                    <div class="estimator-result-block" style="grid-column: 1 / -1;">
+                        <h4>What's typically included</h4>
+                        <ul class="estimator-includes" id="est-includes"></ul>
+                    </div>
+                    <p class="estimator-note">Ballpark planning figures based on comparable past projects — not a quote. Every site, approval timeline and material choice shifts this. <span id="est-note-extra"></span></p>
+                </div>
+                <div class="estimator-cta-row">
+                    <a href="#contact" class="btn-primary" id="est-cta">Start This Conversation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact">
         <div class="container">
@@ -1538,6 +1623,7 @@
                         <li><a href="#massing">Explore 3D</a></li>
                         <li><a href="#blueprint">Blueprint</a></li>
                         <li><a href="#projects">Projects</a></li>
+                        <li><a href="#estimator">Scope Estimator</a></li>
                         <li><a href="#reviews">Reviews</a></li>
                     </ul>
                 </div>
@@ -1656,6 +1742,131 @@
                 });
                 btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
             });
+        }
+
+        // --- BEFORE / AFTER SLIDER ---
+        function initRevealSlider() {
+            const slider = document.getElementById('reveal-slider');
+            const beforeImg = document.getElementById('reveal-before-img');
+            const handle = document.getElementById('reveal-handle');
+            if (!slider || !beforeImg || !handle) return;
+
+            function setPosition(percent) {
+                percent = Math.max(0, Math.min(100, percent));
+                beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+                handle.style.left = percent + '%';
+                slider.setAttribute('aria-valuenow', String(Math.round(percent)));
+            }
+            function positionFromClientX(clientX) {
+                const rect = slider.getBoundingClientRect();
+                if (!rect.width) return;
+                setPosition(((clientX - rect.left) / rect.width) * 100);
+            }
+
+            let dragging = false;
+            slider.addEventListener('pointerdown', (e) => { dragging = true; positionFromClientX(e.clientX); });
+            window.addEventListener('pointermove', (e) => { if (dragging) positionFromClientX(e.clientX); });
+            window.addEventListener('pointerup', () => { dragging = false; });
+            slider.addEventListener('keydown', (e) => {
+                const current = parseFloat(slider.getAttribute('aria-valuenow')) || 50;
+                if (e.key === 'ArrowLeft') { setPosition(current - 5); e.preventDefault(); }
+                else if (e.key === 'ArrowRight') { setPosition(current + 5); e.preventDefault(); }
+            });
+            setPosition(50);
+        }
+
+        // --- PROJECT SCOPE ESTIMATOR ---
+        const estimatorData = {
+            timelines: {
+                interiors: { compact: '6–10 weeks', mid: '10–16 weeks', large: '16–24 weeks' },
+                architecture: { compact: '3–5 months', mid: '5–9 months', large: '9–14 months' },
+                turnkey: { compact: '6–9 months', mid: '9–15 months', large: '15–24 months' }
+            },
+            teams: {
+                interiors: 'Interior designer + site coordinator',
+                architecture: 'Architect + interior designer + structural consultant',
+                turnkey: 'Full project team — architect, structural engineer, interior designer, site supervisor'
+            },
+            includes: {
+                interiors: ['Space planning and material palette', 'Furniture, lighting and finish selection', 'Vendor coordination through fit-out'],
+                architecture: ['Concept design and structural planning', 'Statutory drawings and approvals', 'Interior design and 3D visualisation'],
+                turnkey: ['Everything in Architecture + Interiors', 'Civil, MEP and finishing execution', 'Weekly site supervision and QA checkpoints', 'Snag-list closure and handover support']
+            },
+            typeNote: {
+                residential: 'Residential work at this scope is what we do most — most villa and apartment projects land in this range.',
+                hospitality: 'Hospitality projects often carry extra approvals (fire, food safety) that can add a few weeks.',
+                commercial: 'Commercial fit-outs frequently run alongside a live business — work can be phased to reduce disruption.',
+                renovation: 'Renovation timelines depend on what turns up once work begins — we build in contingency for that.'
+            },
+            serviceMap: { interiors: 'Interior Design', architecture: 'Architecture', turnkey: 'Turnkey Construction' }
+        };
+
+        function updateEstimator() {
+            const type = document.querySelector('#est-type .estimator-btn.active')?.dataset.value || 'residential';
+            const scope = document.querySelector('#est-scope .estimator-btn.active')?.dataset.value || 'interiors';
+            const size = document.querySelector('#est-size .estimator-btn.active')?.dataset.value || 'compact';
+
+            const timelineEl = document.getElementById('est-timeline');
+            const teamEl = document.getElementById('est-team');
+            const includesEl = document.getElementById('est-includes');
+            const noteEl = document.getElementById('est-note-extra');
+            if (!timelineEl || !teamEl || !includesEl || !noteEl) return;
+
+            timelineEl.textContent = estimatorData.timelines[scope]?.[size] || '—';
+            teamEl.textContent = estimatorData.teams[scope] || '—';
+            includesEl.innerHTML = (estimatorData.includes[scope] || []).map(i => `<li>${i}</li>`).join('');
+            noteEl.textContent = estimatorData.typeNote[type] || '';
+        }
+
+        function initEstimator() {
+            ['est-type', 'est-scope', 'est-size'].forEach(groupId => {
+                const group = document.getElementById(groupId);
+                if (!group) return;
+                group.querySelectorAll('.estimator-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        group.querySelectorAll('.estimator-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        updateEstimator();
+                    });
+                });
+            });
+            updateEstimator();
+
+            document.getElementById('est-cta')?.addEventListener('click', () => {
+                const type = document.querySelector('#est-type .estimator-btn.active')?.dataset.value;
+                const scope = document.querySelector('#est-scope .estimator-btn.active')?.dataset.value;
+                const select = document.getElementById('service');
+                if (select) {
+                    select.value = type === 'renovation' ? 'Renovation' : (estimatorData.serviceMap[scope] || 'Consultation');
+                }
+            });
+        }
+
+        // --- CONFETTI (small delight on a successful enquiry) ---
+        function fireConfetti() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const layer = document.getElementById('confetti-layer');
+            if (!layer || typeof Element === 'undefined' || !Element.prototype.animate) return;
+            const colors = ['#b8905a', '#d3ab79', '#f3efe6', '#8a6a3f'];
+            for (let i = 0; i < 56; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                const size = 6 + Math.random() * 8;
+                piece.style.width = size + 'px';
+                piece.style.height = (size * 0.4) + 'px';
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.left = (Math.random() * 100) + 'vw';
+                const duration = 2200 + Math.random() * 1400;
+                const rotate = Math.random() * 720 - 360;
+                const drift = Math.random() * 160 - 80;
+                layer.appendChild(piece);
+                const anim = piece.animate([
+                    { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(${drift}px, 100vh) rotate(${rotate}deg)`, opacity: 0.9 }
+                ], { duration, easing: 'cubic-bezier(0.2,0.6,0.4,1)' });
+                anim.onfinish = () => piece.remove();
+                setTimeout(() => piece.remove(), duration + 300);
+            }
         }
 
         const testimonials = [
@@ -1871,6 +2082,7 @@
                         status.style.color = 'var(--brass-bright)';
                         status.innerText = "Thank you — we've received your message and will be in touch within one business day.";
                         form.reset();
+                        fireConfetti();
                     } else {
                         const data = await resp.json().catch(() => null);
                         throw new Error((data && data.message) ? data.message : 'Submission failed');
@@ -2004,6 +2216,18 @@
         }
 
         // --- STATS COUNTER ---
+        // Numbers at or above 1,000,000 display abbreviated ("1.5M") — a raw 7-digit
+        // figure is simply too wide to sit in a quarter-width column at a bold size,
+        // at any viewport, so this sidesteps the layout problem rather than fighting it.
+        function formatStatValue(n) {
+            if (n >= 1000000) {
+                const millions = n / 1000000;
+                const decimals = (millions % 1 !== 0) ? 1 : 0;
+                return millions.toFixed(decimals) + 'M';
+            }
+            return Math.ceil(n).toLocaleString();
+        }
+
         function initStats() {
             const stats = document.querySelectorAll('.stat-number');
             const section = document.getElementById('stats-counter');
@@ -2021,10 +2245,10 @@
                         const updateStat = () => {
                             current += increment;
                             if (current < target) {
-                                stat.innerText = Math.ceil(current).toLocaleString();
+                                stat.innerText = formatStatValue(current);
                                 requestAnimationFrame(updateStat);
                             } else {
-                                stat.innerText = target.toLocaleString() + "+";
+                                stat.innerText = formatStatValue(target) + "+";
                             }
                         };
                         updateStat();
@@ -2058,6 +2282,8 @@
                 if (typeGroup) typeGroup.style.display = 'none';
                 const hud = document.querySelector('.massing-hud');
                 if (hud) hud.style.display = 'none';
+                const explodeBtnEl = document.getElementById('massing-explode-btn');
+                if (explodeBtnEl) explodeBtnEl.style.display = 'none';
             }
 
             if (typeof THREE === 'undefined' || !supportsWebGL()) {
@@ -2471,6 +2697,8 @@
             safeRun(initStats, 'initStats');
             safeRun(initMassing, 'initMassing');
             safeRun(initBlueprint, 'initBlueprint');
+            safeRun(initRevealSlider, 'initRevealSlider');
+            safeRun(initEstimator, 'initEstimator');
             safeRun(initEasterEggs, 'initEasterEggs');
             safeRun(initParallax, 'initParallax');
             safeRun(initMagneticButtons, 'initMagneticButtons');
